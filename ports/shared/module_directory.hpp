@@ -6,7 +6,25 @@
 #ifndef NOMINMAX
 #define NOMINMAX 1
 #endif
+#ifdef IN
+#pragma push_macro("IN")
+#undef IN
+#define CHOWDSP_SC_PORTS_RESTORE_IN 1
+#endif
+#ifdef OUT
+#pragma push_macro("OUT")
+#undef OUT
+#define CHOWDSP_SC_PORTS_RESTORE_OUT 1
+#endif
 #include <windows.h>
+#ifdef CHOWDSP_SC_PORTS_RESTORE_IN
+#pragma pop_macro("IN")
+#undef CHOWDSP_SC_PORTS_RESTORE_IN
+#endif
+#ifdef CHOWDSP_SC_PORTS_RESTORE_OUT
+#pragma pop_macro("OUT")
+#undef CHOWDSP_SC_PORTS_RESTORE_OUT
+#endif
 #elif defined(__APPLE__) || defined(__linux__)
 #include <dlfcn.h>
 #endif

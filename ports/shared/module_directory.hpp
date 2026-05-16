@@ -3,6 +3,9 @@
 #include <filesystem>
 
 #if defined(_WIN32)
+#ifndef NOMINMAX
+#define NOMINMAX 1
+#endif
 #include <windows.h>
 #elif defined(__APPLE__) || defined(__linux__)
 #include <dlfcn.h>

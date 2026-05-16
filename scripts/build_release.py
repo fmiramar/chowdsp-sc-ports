@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -54,16 +55,20 @@ def main() -> int:
 
     for port_dir in ports:
         build_dir = build_root / port_dir.name
+        configure_cmd = [
+            "cmake",
+            "-S",
+            str(port_dir),
+            "-B",
+            str(build_dir),
+            f"-DSC_PATH={sc_path}",
+            "-DCMAKE_BUILD_TYPE=Release",
+        ]
+        if os.name == "nt":
+            configure_cmd.append("-DCMAKE_CXX_FLAGS=/D_USE_MATH_DEFINES")
+
         run(
-            [
-                "cmake",
-                "-S",
-                str(port_dir),
-                "-B",
-                str(build_dir),
-                f"-DSC_PATH={sc_path}",
-                "-DCMAKE_BUILD_TYPE=Release",
-            ],
+            configure_cmd,
             cwd=repo_root,
         )
         run(["cmake", "--build", str(build_dir), "--config", "Release"], cwd=repo_root)

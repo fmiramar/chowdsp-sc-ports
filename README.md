@@ -127,7 +127,7 @@ python3 scripts/package_release.py \
   --stage-root stage/Extensions \
   --output-dir dist \
   --version dev \
-  --platform macos-arm64
+  --platform macos-apple-silicon
 ```
 
 ## CI / Releases
@@ -136,8 +136,8 @@ GitHub Actions is configured to build release artifacts for:
 
 - `ubuntu-24.04` (`linux-x64`)
 - `windows-2022` (`windows-x64`)
-- `macos-13` (`macos-x64`)
-- `macos-14` (`macos-arm64`)
+- `macos-13` (`macos-intel`)
+- `macos-14` (`macos-apple-silicon`)
 
 The workflow:
 

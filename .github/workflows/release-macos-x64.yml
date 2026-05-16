@@ -42,12 +42,12 @@ jobs:
             --stage-root stage/Extensions \
             --output-dir dist \
             --version "$VERSION" \
-            --platform macos-x64
+            --platform macos-intel
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ChowDSP-SC-Ports-macos-x64
+          name: ChowDSP-SC-Ports-macos-intel
           path: dist/*.zip
 
       - name: Upload GitHub release asset

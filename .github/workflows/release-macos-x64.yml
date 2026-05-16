@@ -1,10 +1,8 @@
-name: Build Releases
+name: Build Releases macOS x64
 
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
     tags:
       - "v*"
 
@@ -16,19 +14,8 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-24.04
-            platform: linux-x64
-          - os: windows-2022
-            platform: windows-x64
-          - os: macos-14
-            platform: macos-arm64
-
-    runs-on: ${{ matrix.os }}
+  build_macos_x64:
+    runs-on: macos-13
 
     steps:
       - uses: actions/checkout@v4
@@ -36,10 +23,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Install Linux build tools
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y ninja-build
 
       - name: Clone SuperCollider source
         run: git clone --depth 1 --branch Version-${{ env.SC_VERSION }} https://github.com/supercollider/supercollider.git external/supercollider
@@ -59,12 +42,12 @@ jobs:
             --stage-root stage/Extensions \
             --output-dir dist \
             --version "$VERSION" \
-            --platform "${{ matrix.platform }}"
+            --platform macos-x64
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ChowDSP-SC-Ports-${{ matrix.platform }}
+          name: ChowDSP-SC-Ports-macos-x64
           path: dist/*.zip
 
       - name: Upload GitHub release asset

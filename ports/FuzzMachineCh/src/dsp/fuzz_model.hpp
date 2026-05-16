@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../../ChowDSP-VCV/lib/chowdsp_utils/modules/chowdsp_plugin_utils/third_party/nlohmann/json.hpp"
+#include "../../../shared/third_party/nlohmann/json.hpp"
 #include "denormal.hpp"
 
 #include <algorithm>

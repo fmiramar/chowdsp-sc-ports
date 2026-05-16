@@ -57,9 +57,9 @@ endif()
 
 install(
     FILES
-        ../../BYOD/res/guitar_ml_models/fuzz_15.json
-        ../../BYOD/res/guitar_ml_models/fuzz_2.json
-        ../../BYOD/res/guitar_ml_models/fuzz_15_88.json
-        ../../BYOD/res/guitar_ml_models/fuzz_2_88.json
+        models/fuzz_15.json
+        models/fuzz_2.json
+        models/fuzz_15_88.json
+        models/fuzz_2_88.json
     DESTINATION FuzzMachineCh/models
 )

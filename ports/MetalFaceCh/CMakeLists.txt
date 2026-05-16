@@ -23,4 +23,4 @@ sc_add_server_plugin("MetalFaceCh" "MetalFaceCh" "${metalfacech_cpp_files}" "${m
 if(TARGET MetalFaceCh_scsynth)
     set_target_properties(MetalFaceCh_scsynth PROPERTIES OUTPUT_NAME "MetalFaceCh")
 endif()
-install(FILES ../../BYOD/res/guitar_ml_models/metal_face_model.json DESTINATION MetalFaceCh/models)
+install(FILES models/metal_face_model.json DESTINATION MetalFaceCh/models)

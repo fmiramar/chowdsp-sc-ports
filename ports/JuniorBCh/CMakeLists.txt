@@ -23,4 +23,4 @@ sc_add_server_plugin("JuniorBCh" "JuniorBCh" "${juniorbch_cpp_files}" "${juniorb
 if(TARGET JuniorBCh_scsynth)
     set_target_properties(JuniorBCh_scsynth PROPERTIES OUTPUT_NAME "JuniorBCh")
 endif()
-install(FILES ../../BYOD/res/guitar_ml_models/junior_1_stage.json DESTINATION JuniorBCh/models)
+install(FILES models/junior_1_stage.json DESTINATION JuniorBCh/models)

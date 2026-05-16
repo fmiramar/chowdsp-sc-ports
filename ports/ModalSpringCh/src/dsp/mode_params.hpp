@@ -13,4 +13,4 @@ struct default_arch
 };
 } // namespace xsimd
 
-#include "../../../../chowdsp_utils/examples/ModalSpringReverb/ModeParams.h"
+#include "ModeParams.h"

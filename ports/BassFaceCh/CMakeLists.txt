@@ -35,7 +35,7 @@ endif()
 
 install(
     FILES
-        ../../BYOD/res/guitar_ml_models/bass_face_model_96k.json
-        ../../BYOD/res/guitar_ml_models/bass_face_model_88_2k.json
+        models/bass_face_model_96k.json
+        models/bass_face_model_88_2k.json
     DESTINATION BassFaceCh/models
 )

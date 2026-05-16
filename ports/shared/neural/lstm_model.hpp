@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../ChowDSP-VCV/lib/chowdsp_utils/modules/chowdsp_plugin_utils/third_party/nlohmann/json.hpp"
+#include "../third_party/nlohmann/json.hpp"
 
 #include <array>
 #include <cmath>

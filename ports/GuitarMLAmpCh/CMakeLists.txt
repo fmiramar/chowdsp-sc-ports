@@ -25,8 +25,8 @@ if(TARGET GuitarMLAmpCh_scsynth)
 endif()
 install(
     FILES
-        ../../BYOD/res/guitar_ml_models/BluesJrAmp_VolKnob.json
-        ../../BYOD/res/guitar_ml_models/TS9_DriveKnob.json
-        ../../BYOD/res/guitar_ml_models/MesaRecMini_ModernChannel_GainKnob.json
+        models/BluesJrAmp_VolKnob.json
+        models/TS9_DriveKnob.json
+        models/MesaRecMini_ModernChannel_GainKnob.json
     DESTINATION GuitarMLAmpCh/models
 )

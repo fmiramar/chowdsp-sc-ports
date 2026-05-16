@@ -3,16 +3,13 @@
 #include "dsp/denormal.hpp"
 #include "dsp/filters.hpp"
 #include "dsp/fuzz_model.hpp"
+#include "../../shared/module_directory.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <filesystem>
 #include <mutex>
 #include <new>
-
-#if defined(__APPLE__) || defined(__linux__)
-#include <dlfcn.h>
-#endif
 
 static InterfaceTable* ft;
 
@@ -43,12 +40,7 @@ SharedModels& sharedModels() noexcept
 
 std::filesystem::path moduleDirectory()
 {
-#if defined(__APPLE__) || defined(__linux__)
-    Dl_info info {};
-    if (dladdr((const void*) &moduleDirectory, &info) != 0 && info.dli_fname != nullptr)
-        return std::filesystem::path(info.dli_fname).parent_path();
-#endif
-    return std::filesystem::current_path();
+    return sharedpaths::moduleDirectory((const void*) &moduleDirectory);
 }
 
 void ensureModelsLoaded()

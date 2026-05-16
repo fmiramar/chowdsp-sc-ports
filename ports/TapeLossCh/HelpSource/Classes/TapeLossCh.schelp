@@ -1,0 +1,63 @@
+class:: TapeLossCh
+summary:: Tape-head loss stage based on the ChowTape Loss module
+categories:: UGens>Effects
+
+Description::
+
+TapeLossCh follows the ChowTape Loss stage. The DSP rebuilds a sample-rate-aware FIR response from the `gap`, `thickness`, `spacing`, and `speed` controls, then combines that with the original head-bump peak filter. In physical terms those parameters represent aspects of the record / playback geometry and transport, while in DSP terms they determine a spectral tilt plus a low-frequency bump rather than a nonlinear saturation law.
+
+This is one of the key reasons tape coloration is recognizable even at low drive: the medium is not flat. You get softened top end, a shaped low-frequency emphasis, and a spectral contour that can make material feel older, warmer, or simply less pristine without necessarily adding much distortion.
+
+definitionlist::
+## gap: || normalized `0..1` control mapped to approximately `1..50` microns
+## thickness: || normalized `0..1` control mapped to approximately `0.1..50` microns
+## spacing: || normalized `0..1` control mapped to approximately `0.1..20` microns
+## speed: || normalized `0..1` control mapped to approximately `1..50` ips
+::
+
+The FIR order scales with sample rate like the Rack module. This port clears the coefficient work buffers before each rebuild so odd-order FIR sizes do not retain stale tap values between parameter changes.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::gap
+Normalized gap control in `0..1`.
+
+argument::thickness
+Normalized tape-thickness control in `0..1`.
+
+argument::spacing
+Normalized spacing control in `0..1`.
+
+argument::speed
+Normalized tape-speed control in `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.12);
+	TapeLossCh.ar(src, gap: 0.4, thickness: 0.6, spacing: 0.5, speed: 0.75) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Saw.ar(80, 0.25);
+	TapeLossCh.ar(src, gap: MouseX.kr(0, 1), thickness: 0.4, spacing: MouseY.kr(0, 1), speed: 0.5) ! 2
+}.play
+)
+::

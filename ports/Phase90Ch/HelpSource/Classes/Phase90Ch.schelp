@@ -1,0 +1,73 @@
+class:: Phase90Ch
+summary:: BYOD-derived 4-stage phaser based on a classic Phase 90 style circuit
+categories:: UGens>Filters
+
+Description::
+
+Phase90Ch follows the public BYOD `Phaser4` module as a four-stage allpass phaser with internal triangle LFO, selectable feedback injection point, and wet / dry mix. The phaser sound comes from moving allpass poles and zeros: each stage preserves magnitude on its own, but when mixed with dry signal it creates moving notches whose positions are controlled by the LFO and feedback path. The filter coefficients are derived from the same bilinear-transform-based structures used by the source module.
+
+This is the classic compact phaser vocabulary associated with swirling guitar, synth pads, and electric piano. Lower feedback stays smooth and liquid; higher feedback sharpens the notches and produces the more vocal, swooshing edge people usually associate with vintage phaser pedals.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::rate
+Internal LFO rate in Hz. Clamped to `0.1..10`.
+
+argument::depth
+Normalized modulation depth.
+
+argument::feedback
+Feedback amount. Clamped to `-1..1`, internally scaled to the source module range.
+
+argument::mix
+Wet/dry mix, `0..1`.
+
+argument::fbStage
+Feedback stage selection. Rounded and clamped to `2`, `3`, or `4`.
+
+argument::stereo
+Set to a positive value for a 2-channel dual-mono output with inverted modulation on the right side.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	Phase90Ch.ar(
+		Saw.ar(110, 0.08),
+		rate: 0.6,
+		depth: 0.9,
+		feedback: 0.5,
+		mix: 0.65,
+		fbStage: 4
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	Phase90Ch.ar(
+		WhiteNoise.ar(0.1),
+		rate: 0.2,
+		depth: 1.0,
+		feedback: SinOsc.kr(0.05).range(-0.4, 0.7),
+		mix: 0.75,
+		fbStage: 3,
+		stereo: 1
+	) * 0.4
+}.play
+)
+::

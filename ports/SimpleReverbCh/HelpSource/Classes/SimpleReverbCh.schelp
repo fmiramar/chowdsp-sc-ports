@@ -1,0 +1,67 @@
+class:: SimpleReverbCh
+summary:: Stereo reverb based on the chowdsp_utils SimpleReverb example
+categories:: UGens>Effects
+
+Description::
+
+SimpleReverbCh follows the `SimpleReverb` example from chowdsp_utils. The reverb is built around an 8-line stereo feedback delay network with separate low- and high-frequency T60 control, a diffuser ahead of the network, and small internal modulation to keep repeated trajectories from locking too obviously. In state-space terms the decay is controlled by the feedback matrix, the delay lengths, and the frequency-dependent damping filters applied inside the loop.
+
+This is not meant to emulate a specific acoustic room in detail. It is a compact algorithmic reverb that can move from small synthetic ambience to a more spacious and polished tail, with the modulation helping the decay feel less metallic and less static on sustained material.
+
+definitionlist::
+## diffusionTime: || front-end diffusion time in milliseconds, intended range `10..1000`
+## fdnDelay: || base FDN delay time in milliseconds, intended range `50..500`
+## fdnT60Low: || low-frequency T60 in milliseconds, intended range `100..5000`
+## fdnT60High: || high-frequency T60 in milliseconds, intended range `100..5000`
+## modAmount: || normalized FDN delay modulation amount in `0..1`
+## dryWet: || dry/wet mix in `0..1`
+::
+
+classmethods::
+
+method::ar
+
+argument::inL
+Left input.
+
+argument::inR
+Right input.
+
+argument::diffusionTime
+Front-end diffusion time in milliseconds.
+
+argument::fdnDelay
+Base FDN delay time in milliseconds.
+
+argument::fdnT60Low
+Low-frequency decay time in milliseconds.
+
+argument::fdnT60High
+High-frequency decay time in milliseconds.
+
+argument::modAmount
+Normalized modulation amount.
+
+argument::dryWet
+Dry/wet mix.
+
+Examples::
+
+code::
+(
+{
+	var src = Decay2.ar(Impulse.ar(1.5), 0.001, 0.05) * PinkNoise.ar(0.3);
+	SimpleReverbCh.ar(src, src, diffusionTime: 120, fdnDelay: 110, fdnT60Low: 900, fdnT60High: 550, modAmount: 0.2, dryWet: 0.35)
+}.play
+)
+::
+
+code::
+(
+{
+	var srcL = VarSaw.ar(70, 0, 0.3, 0.08);
+	var srcR = Pulse.ar(105, 0.35, 0.06);
+	SimpleReverbCh.ar(srcL, srcR, diffusionTime: MouseX.kr(40, 600), fdnDelay: 130, fdnT60Low: 1800, fdnT60High: 700, modAmount: MouseY.kr(0, 1), dryWet: 0.4)
+}.play
+)
+::

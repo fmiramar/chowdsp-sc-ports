@@ -1,0 +1,69 @@
+class:: WarpCh
+summary:: Nonlinear warped filter based on the ChowDSP Warp module
+categories:: UGens>Filters
+
+Description::
+
+WarpCh follows the full ChowDSP Warp module control surface. The core is a nonlinear peaking-filter / feedback-loop structure whose internal coefficients are cooked from the user controls every few samples and then evaluated at fixed 2x oversampling. In DSP terms it is a delay-free nonlinear filter loop, so `cutoff`, `heat`, `width`, and `drive` all interact inside the same recursive structure instead of acting as cleanly separated stages.
+
+That gives the effect a more unstable and expressive identity than a normal EQ or phaser. Depending on mode and drive it can sound like resonant coloration, narrow moving emphasis, or a more aggressive warped resonance that almost behaves like a self-excited filter body.
+
+definitionlist::
+## cutoff: || `0..1`, mapped exponentially to the internal filter frequency
+## heat: || `0..1`, mapping depends on `mode`
+## width: || `0..1`, mapping depends on `mode`
+## drive: || `0..1`, mapping depends on `mode`
+## mode: || discrete mapping selector `0`, `1`, or `2`
+::
+
+Internally, WarpCh preserves fixed 2x oversampling, the nonlinear peaking filter and delay-free feedback loop, the 16-sample parameter recook cadence, and the original short fade-in after mode changes.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::cutoff
+Normalized cutoff control in `0..1`.
+
+argument::heat
+Normalized heat control in `0..1`.
+
+argument::width
+Normalized width control in `0..1`.
+
+argument::drive
+Normalized drive control in `0..1`.
+
+argument::mode
+Discrete mode selector. Values are quantized like the Rack module: `0`, `1`, or `2`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = Saw.ar(110 * [1, 1.005], 0.05).sum * 0.5;
+	WarpCh.ar(src, cutoff: 0.58, heat: 0.45, width: 0.7, drive: 0.2, mode: 0) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.08);
+	var cutoff = MouseX.kr(0.0, 1.0);
+	var width = MouseY.kr(0.0, 1.0);
+	WarpCh.ar(src, cutoff: cutoff, heat: 0.6, width: width, drive: 0.35, mode: 2) ! 2
+}.play
+)
+::

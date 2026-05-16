@@ -1,0 +1,9 @@
+class:: GuitarMLAmpCh
+summary:: BYOD-derived built-in GuitarML model host
+categories:: UGens>Filters
+
+Description::
+
+GuitarMLAmpCh follows BYOD's built-in public `GuitarML` models. Each model is a conditioned recurrent neural network trained to reproduce the behavior of a specific drive or amp target, so the DSP is a nonlinear stateful mapping from input audio and control value to output audio, with optional correction filtering for the source models that expect it. The port keeps the built-in public models and the normalization logic used by BYOD, including the special treatment for the Mesa model.
+
+Compared with a static waveshaper, this kind of model can encode memory effects such as attack compression, release, and bias-like drift because the hidden state evolves with the signal. The audible result is closer to an amp or pedal channel responding over time, rather than simply clipping sample peaks in isolation.

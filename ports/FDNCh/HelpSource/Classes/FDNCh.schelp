@@ -1,0 +1,71 @@
+class:: FDNCh
+summary:: Feedback delay network reverb based on the ChowDSP ChowFDN module
+categories:: UGens>Effects
+
+Description::
+
+FDNCh follows the ChowFDN module control surface. The core is a feedback delay network: a state vector of delay-line outputs is mixed by an orthonormal matrix, filtered by frequency-dependent decay shelves, and written back into the delay lines after pre-delay and input injection. In compact form the system behaves like a delayed feedback state equation, where the matrix and damping filters control echo density, modal distribution, and how low and high frequencies decay over time.
+
+This is one of the standard modern reverberation structures because it can create dense, decorrelated tails without needing a literal room geometry. Sonically, smaller sizes and shorter T60 values produce tighter ambience, while larger sizes and longer decays move the sound toward lush synthetic halls and diffused sustain.
+
+definitionlist::
+## preDelay: || normalized `0..1` control mapped exponentially to approximately `1..500 ms`
+## size: || room size scaling in `0.1..1`
+## t60High: || high-frequency decay time in seconds, clamped to `0.5..10`
+## t60Low: || low-frequency decay time in seconds, clamped to `0.5..10`
+## numDelays: || effective delay-line count, truncated to integer values in `1..16`
+## mix: || dry/wet mix in `0..1`
+::
+
+Internally, the port keeps the original delay-length schedule and one-shelf damping model, but uses a deterministic orthonormal mix matrix so each instance is reproducible.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::preDelay
+Normalized pre-delay control in `0..1`.
+
+argument::size
+Room size scaling in `0.1..1`.
+
+argument::t60High
+High-frequency decay time in seconds.
+
+argument::t60Low
+Low-frequency decay time in seconds.
+
+argument::numDelays
+Number of active delay lines. Fractional values are truncated like the Rack module's float-to-int cast.
+
+argument::mix
+Dry/wet mix in `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.08);
+	FDNCh.ar(src, preDelay: 0.45, size: 0.6, t60High: 1.2, t60Low: 2.5, numDelays: 8, mix: 0.7) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Decay2.ar(Impulse.ar(1), 0.01, 0.2) * WhiteNoise.ar(0.4);
+	FDNCh.ar(src, preDelay: 0.2, size: MouseX.kr(0.1, 1.0), t60High: 0.7, t60Low: MouseY.kr(0.5, 6.0), numDelays: 16, mix: 1.0) ! 2
+}.play
+)
+::

@@ -1,0 +1,60 @@
+class:: FuzzMachineCh
+summary:: BYOD-derived neural fuzz pedal
+categories:: UGens>Filters
+
+Description::
+
+FuzzMachineCh follows BYOD's public `Fuzz Machine` module. The DSP core is a conditioned LSTM fuzz model: each sample is processed together with the normalized `fuzz` control, the recurrent state carries short-term memory forward, and the model output is combined residually with the dry path in the same way as the source. The port also keeps BYOD's sample-rate strategy, using 2x oversampling at 44.1 / 48 kHz and direct model execution at 88.2 / 96 kHz.
+
+A neural fuzz model behaves differently from a memoryless clipper because the state can react to transients, sustain, and bias history. Sonically that usually means more bloom, sag, and note-to-note interaction, which is exactly the kind of behavior players associate with aggressive fuzz circuits rather than with purely static digital saturation.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::fuzz
+Normalized fuzz amount, `0..1`.
+
+argument::model
+Model selection. `1` selects mode 1.5, `2` selects mode 2.
+
+argument::volume
+Normalized output level, `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	FuzzMachineCh.ar(
+		Saw.ar(110, 0.08),
+		fuzz: 0.8,
+		model: 2,
+		volume: 0.55
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = WhiteNoise.ar(0.06);
+	FuzzMachineCh.ar(
+		src,
+		fuzz: SinOsc.kr(0.05).range(0.15, 0.95),
+		model: 1,
+		volume: 0.45
+	) ! 2
+}.play
+)
+::

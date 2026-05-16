@@ -1,0 +1,42 @@
+class:: WestCoastFoldCh
+summary:: ADAA Buchla-style wavefolder based on chowdsp_utils
+categories:: UGens>Effects
+
+Description::
+
+WestCoastFoldCh follows chowdsp_utils' `WestCoastWavefolder`. The shaper is built from a five-cell fold approximation evaluated with second-order ADAA, so the waveform is reflected back on itself repeatedly once it exceeds each fold threshold, but the aliasing normally introduced by those sharp nonlinear turns is reduced through the antiderivative formulation. The one-sample latency is part of that antialiased evaluation strategy.
+
+Wavefolding is one of the signature sounds of West Coast synthesis because it increases spectral richness by bending a waveform back through itself rather than by clipping its peaks flat. The result can move from bright animation on simple inputs to dense, almost metallic complexity when the source is driven hard.
+
+ADAA literature describes the core idea as relying on "operations over the antiderivative of the nonlinear function," which is the same strategy used here to reduce aliasing without changing the target transfer curve.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	WestCoastFoldCh.ar(SinOsc.ar(100, 0, 2.4)) ! 2 * 0.12
+}.play
+)
+::
+
+code::
+(
+{
+	WestCoastFoldCh.ar(VarSaw.ar(60, 0, 0.2, 2.8)) ! 2 * 0.1
+}.play
+)
+::

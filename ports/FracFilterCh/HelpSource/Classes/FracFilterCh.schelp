@@ -1,0 +1,58 @@
+class:: FracFilterCh
+summary:: Approximate fractional-order lowpass based on chowdsp_utils
+categories:: UGens>Filters
+
+Description::
+
+FracFilterCh follows the chowdsp fractional-order filter module directly. Instead of forcing the filter order to an integer, it approximates a response of order `alpha` using the same pole / zero derivation and bilinear-transform discretization used upstream. In DSP terms this lets the slope and phase behavior interpolate between familiar integer-order responses, so `alpha` changes the shape continuously rather than jumping between separate topologies.
+
+That makes the UGen useful when ordinary first- or second-order responses feel too coarse. The sound can move from gentle tilt-like filtering into steeper, more phase-rich behavior, and audio-rate modulation of `alpha` produces timbral motion that is difficult to get from standard textbook filter families.
+
+definitionlist::
+## in: || Input signal.
+## freq: || Cutoff frequency in Hz. Internally clamped to `20..Nyquist * 0.499`.
+## alpha: || Fractional slope control, clamped to `0..1`.
+::
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::freq
+Cutoff frequency in Hz.
+
+argument::alpha
+Fractional-order amount between `0` and `1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = WhiteNoise.ar(0.15);
+	FracFilterCh.ar(src, freq: 900, alpha: 0.5) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = VarSaw.ar([95, 95.2], 0, 0.35, 0.08).sum * 0.8;
+	FracFilterCh.ar(
+		src,
+		freq: MouseX.kr(120, 5000, 1),
+		alpha: SinOsc.kr(0.12).range(0.05, 1.0)
+	) ! 2
+}.play
+)
+::

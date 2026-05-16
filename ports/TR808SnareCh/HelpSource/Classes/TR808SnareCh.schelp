@@ -1,0 +1,56 @@
+class:: TR808SnareCh
+summary:: TR-808 snare resonator port from WaveDigitalFilters
+categories:: UGens>Filters
+
+Description::
+
+TR808SnareCh follows the `SnareResonator` block from the `TR_808` set in `WaveDigitalFilters`. The block is a wave-digital resonator tuned and damped like the analog snare-body network, run inside the same oversampled shell as the source implementation. In DSP terms it is the pitched body stage of the snare, not the entire voice, so it works best when excited by pulses, filtered noise, or a combination of both.
+
+The TR-808 snare sound is a mix of resonant drum-body tone and noisy snap. This UGen contributes the tonal shell of that sound: the pitched ring and decay contour that make an electronic snare feel like more than a simple filtered noise burst.
+
+The nonlinear diode update follows the wave-digital literature cited in the source tree, including "An Improved and Generalized Diode Clipper Model for Wave Digital Filters."
+
+classmethods::
+
+method::ar
+
+argument::in
+Input or excitation signal.
+
+argument::freq
+Resonant frequency in Hz. Clamped to `80..2000`.
+
+argument::res
+Resonance amount, clamped to `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	TR808SnareCh.ar(
+		WhiteNoise.ar(0.18) * Decay2.ar(Impulse.ar(3), 0.001, 0.08),
+		freq: 190,
+		res: 0.55
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	TR808SnareCh.ar(
+		Impulse.ar(5, 0, 0.25) + (WhiteNoise.ar(0.08) * Decay2.ar(Impulse.ar(5), 0.001, 0.05)),
+		freq: SinOsc.kr(0.08).exprange(100, 700),
+		res: LFTri.kr(0.06).range(0.2, 0.9)
+	) ! 2 * 0.5
+}.play
+)
+::

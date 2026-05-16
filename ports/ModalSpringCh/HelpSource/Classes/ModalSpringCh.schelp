@@ -1,0 +1,77 @@
+class:: ModalSpringCh
+summary:: Scalar modal spring reverb based on the chowdsp_utils ModalSpringReverb example
+categories:: UGens>Effects
+
+Description::
+
+ModalSpringCh follows the `ModalSpringReverb` example from chowdsp_utils. The DSP is a bank of measured spring modes: each mode is a decaying resonant partial, the set is pitch-scaled and decay-scaled together, and an optional modulation path perturbs the first group of modes to imitate small spring-motion instabilities. In mathematical terms the output is a sum of many damped modal resonators, not a delay-network reverb.
+
+That is why spring reverbs feel boingy, metallic, and modal instead of diffuse like halls or rooms. This UGen keeps that identity: short settings emphasize twang and individual modes, while longer settings build a more clouded metallic tail that still carries obvious spring character.
+
+definitionlist::
+## pitch: || bipolar pitch offset in octaves, intended range `-1..1`
+## decay: || normalized decay scaling, intended range `0..1`
+## mix: || dry/wet proportion, intended range `0..1`
+## modModes: || number of lowest modes to modulate, quantized to `0, 20, ..., 200`
+## modFreq: || modulation frequency in Hz, intended range `0.5..10`
+## modDepth: || normalized modulation depth, intended range `0..1`
+::
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::pitch
+Bipolar pitch offset in octaves.
+
+argument::decay
+Normalized decay scaling.
+
+argument::mix
+Dry/wet proportion.
+
+argument::modModes
+Number of lowest modes to modulate. Values are rounded to the example plugin's `20`-mode step size.
+
+argument::modFreq
+Modulation frequency in Hz.
+
+argument::modDepth
+Normalized modulation depth.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var exciter = Decay2.ar(Impulse.ar(1.25), 0.001, 0.035) * PinkNoise.ar(0.4);
+	ModalSpringCh.ar(exciter, pitch: 0, decay: 0.55, mix: 1) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var exciter = HPF.ar(WhiteNoise.ar(0.15), 1200) * Decay2.ar(Dust.ar(5), 0.001, 0.02);
+	ModalSpringCh.ar(
+		exciter,
+		pitch: MouseX.kr(-0.5, 0.5),
+		decay: MouseY.kr(0.2, 0.9),
+		mix: 0.9,
+		modModes: 120,
+		modFreq: 1.2,
+		modDepth: 0.35
+	) ! 2
+}.play
+)
+::

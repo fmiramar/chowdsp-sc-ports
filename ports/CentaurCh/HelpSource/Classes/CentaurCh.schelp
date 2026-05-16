@@ -1,0 +1,75 @@
+class:: CentaurCh
+summary:: Klon-style overdrive based on the traditional ChowCentaur circuit path
+categories:: UGens>Effects
+
+Description::
+
+CentaurCh follows the traditional circuit path from ChowDSP's `ChowCentaur`. The DSP keeps the buffered input stage, nonlinear gain stage, tone section, output stage, and DC blocker, with the clipping portion oversampled to better preserve the shape of the diode transition. In circuit terms this is not a single waveshaper but a chain of filtering, gain, clipping, summing, and output conditioning stages.
+
+The original Centaur family is known for keeping pick attack and low-frequency structure more intact than many compact distortion pedals, while adding upper-mid presence and a pushed-front-end feel. This port keeps that topology-driven behavior, so `gain` changes both harmonic density and the balance between the cleaner and more clipped parts of the signal path.
+
+The nonlinear diode update follows the wave-digital literature cited in the source tree, including "An Improved and Generalized Diode Clipper Model for Wave Digital Filters."
+
+definitionlist::
+## in: || Input signal.
+## gain: || Drive control in `0..1`.
+## treble: || Tone control in `0..1`.
+## level: || Output level control in `0..1`.
+::
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::gain
+Overdrive amount.
+
+argument::treble
+Tone control.
+
+argument::level
+Output level control.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = Saw.ar(110, 0.08);
+	CentaurCh.ar(src, gain: 0.65, treble: 0.45, level: 0.55) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = [Saw.ar(110, 0.05), Pulse.ar(220, 0.45, 0.05)];
+	CentaurCh.ar(
+		src,
+		gain: MouseX.kr(0.05, 0.95, 1),
+		treble: MouseY.kr(0.1, 0.9, 1),
+		level: 0.6
+	)
+}.play
+)
+::
+
+code::
+(
+{
+	var src = HPF.ar(WhiteNoise.ar(0.07), 120);
+	var env = Decay2.ar(Impulse.ar(2), 0.01, 0.15);
+	CentaurCh.ar(src * env, gain: 0.85, treble: 0.35, level: 0.75) ! 2
+}.play
+)
+::

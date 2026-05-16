@@ -1,0 +1,52 @@
+class:: DirtyTubeCh
+summary:: BYOD-derived tube amplifier drive stage
+categories:: UGens>Filters
+
+Description::
+
+DirtyTubeCh follows BYOD's public `Dirty Tube` processor. The nonlinear core is a wave-digital tube stage with parasitic capacitances and a nonlinear conduction law, so each sample is processed as part of a small implicit circuit rather than by a memoryless transfer curve. The port keeps the stage structure and the alpha-transformed capacitors from the source, which means the distortion includes dynamic charge and discharge behavior instead of only static saturation.
+
+That is why tube stages tend to feel softer, more asymmetric, and more touch-sensitive than simple hard clippers. The sound usually moves from warming and gentle compression into raspier breakup as `drive` rises, but it still keeps some of the sag and dynamic rounding associated with preamp-style distortion.
+
+Where the source uses Wright-Omega / Lambert-W style closed-form approximations, it follows the method described as giving "high accuracy, low computational cost, and" models that are "stable in all conditions."
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::drive
+Normalized drive amount, `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	DirtyTubeCh.ar(
+		Saw.ar(110, 0.08),
+		drive: 0.75
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.06);
+	DirtyTubeCh.ar(
+		src,
+		drive: SinOsc.kr(0.07).range(0.15, 0.95)
+	) ! 2
+}.play
+)
+::

@@ -1,0 +1,42 @@
+class:: WaveMultiplierCh
+summary:: ADAA Serge-style wave multiplier based on chowdsp_utils
+categories:: UGens>Effects
+
+Description::
+
+WaveMultiplierCh follows chowdsp_utils' `WaveMultiplier<float, 6>`. The signal is passed through six cascaded multiplier / folding cells, and each stage is evaluated with second-order ADAA so the compound nonlinearity keeps the original fold structure with less aliasing than a naive cascade. Because every stage feeds the next, the transfer curve becomes progressively more complex and the spectrum grows quickly as level rises.
+
+This kind of processing sits between classic wavefolding and harsher multiplication-style distortion. At lower levels it adds animated upper harmonics; at higher levels it becomes dense, buzzy, and deliberately synthetic.
+
+ADAA literature describes the core idea as relying on "operations over the antiderivative of the nonlinear function," which is the same strategy used here to reduce aliasing without changing the target transfer curve.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	WaveMultiplierCh.ar(SinOsc.ar(90, 0, 3.2)) ! 2 * 0.18
+}.play
+)
+::
+
+code::
+(
+{
+	WaveMultiplierCh.ar(LFTri.ar(70, 0, 3.5)) ! 2 * 0.16
+}.play
+)
+::

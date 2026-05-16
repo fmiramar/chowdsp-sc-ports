@@ -1,0 +1,53 @@
+class:: SallenKeyCh
+summary:: Sallen-Key low-pass filter port from WaveDigitalFilters
+categories:: UGens>Filters
+
+Description::
+
+SallenKeyCh follows the working DSP path in the `SallenKeyFilter` example from `WaveDigitalFilters`. The core is a low-pass Sallen-Key circuit model run in a 2x oversampled wave-digital shell, with multiplicative smoothing on frequency and Q so control changes stay stable and musically continuous. Because the topology is preserved, the response shape and resonance come from the familiar op-amp-and-RC arrangement rather than from a generic filter abstraction.
+
+Sallen-Key filters are a standard analog building block, valued because they can move from smooth tone shaping into resonant low-pass behavior with simple circuitry. This port keeps that directness: it is a good choice for classic low-pass contouring when you want circuit-derived behavior without the stronger identity of a ladder design.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::freq
+Cutoff frequency in Hz. Clamped to `20..20000`.
+
+argument::q
+Quality-factor control, clamped to `0.2..10`. Accepted for compatibility with the upstream source, but the current upstream circuit code hardcodes the resistor ratio, so this control is effectively inert in this first pass.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	SallenKeyCh.ar(
+		Saw.ar(110, 0.15),
+		freq: 900
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	SallenKeyCh.ar(
+		WhiteNoise.ar(0.12) * Decay2.ar(Impulse.ar(4), 0.005, 0.15),
+		freq: SinOsc.kr(0.08).exprange(120, 6000),
+		q: LFTri.kr(0.11).range(0.3, 6.0)
+	) ! 2 * 0.6
+}.play
+)
+::

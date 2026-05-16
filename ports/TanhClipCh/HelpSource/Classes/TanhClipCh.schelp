@@ -1,0 +1,42 @@
+class:: TanhClipCh
+summary:: ADAA tanh clipper based on chowdsp_utils
+categories:: UGens>Effects
+
+Description::
+
+TanhClipCh follows chowdsp_utils' `ADAATanhClipper`. The target nonlinearity is the smooth hyperbolic tangent, but the implementation uses second-order ADAA rather than direct evaluation of `tanh(x)` at each sample. That means the shaper is computed from antiderivative relationships and a short signal history so the analog-style soft saturation is kept while the aliasing typical of naive digital waveshaping is reduced.
+
+Sonically, `tanh` clipping is one of the standard soft-saturation curves because it rounds into limiting gradually, producing compression and harmonic growth without the abrupt edge of hard clipping. This version keeps that smoothness while staying cleaner in the top end when driven hard.
+
+ADAA literature describes the core idea as relying on "operations over the antiderivative of the nonlinear function," which is the same strategy used here to reduce aliasing without changing the target transfer curve.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	TanhClipCh.ar(SinOsc.ar(110, 0, 2.5)) ! 2 * 0.7
+}.play
+)
+::
+
+code::
+(
+{
+	TanhClipCh.ar(VarSaw.ar(70, 0, 0.3, 3.0)) ! 2 * 0.5
+}.play
+)
+::

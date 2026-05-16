@@ -1,0 +1,64 @@
+class:: TapeCh
+summary:: Nonlinear tape stage based on the ChowTape module
+categories:: UGens>Effects
+
+Description::
+
+TapeCh follows the standalone nonlinear stage from ChowTape. The core DSP is the original hysteresis model solved with the `NR4` method at fixed 4x oversampling, so the output depends on both the current sample and the evolving magnetic state of the model rather than only on a static saturation curve. In mathematical terms it is a stateful nonlinear system with memory, which is the right kind of model for tape because magnetization depends on recent excitation history.
+
+That is why tape saturation tends to feel smoother and more cumulative than ordinary clipping. Bias changes the operating point, `saturation` changes how easily the virtual medium bends into compression, and `drive` determines how hard the signal pushes the model. The result ranges from subtle thickening to obvious soft crunch and low-level dynamic flattening.
+
+definitionlist::
+## bias: || normalized `0..1` control mapped to the hysteresis width parameter as `1 - bias`
+## saturation: || normalized `0..1` saturation control used directly by the hysteresis model
+## drive: || normalized `0..1` drive control used directly by the hysteresis model
+::
+
+Like the Rack module, the input is normalized from `+/- 5 V` to `+/- 1` before processing. The current Rack source configures a DC blocker but does not actually route the signal through it, so this standalone port preserves that behavior instead of silently changing the nonlinear stage.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::bias
+Normalized bias control in `0..1`.
+
+argument::saturation
+Normalized saturation control in `0..1`.
+
+argument::drive
+Normalized drive control in `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = Saw.ar(70, 0.25);
+	TapeCh.ar(src, bias: 0.45, saturation: 0.55, drive: 0.7) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.08);
+	TapeCh.ar(
+		src,
+		bias: MouseX.kr(0, 1),
+		saturation: 0.6,
+		drive: MouseY.kr(0, 1)
+	) ! 2
+}.play
+)
+::

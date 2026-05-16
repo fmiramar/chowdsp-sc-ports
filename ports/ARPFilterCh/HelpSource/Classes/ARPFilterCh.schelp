@@ -1,0 +1,81 @@
+class:: ARPFilterCh
+summary:: ARP 1047-style multimode filter based on the chowdsp_utils example
+categories:: UGens>Filters
+
+Description::
+
+ARPFilterCh follows the chowdsp_utils `ARPFilter` example directly. The DSP core is a state-variable filter, so one recursive structure generates the low-pass, band-pass, high-pass, and notch responses by updating a small set of integrator states every sample. That makes modulation smooth and keeps resonance behavior tightly coupled to the cutoff state rather than stitching together separate filter blocks.
+
+The extra ARP-specific controls shape how the internal nonlinearity limits the state growth and how the notch response is offset, so this UGen is useful both as a clean subtractive filter and as a more characterful resonant sweep. The general sound is in the vintage analog-synth family: rounded when run conservatively, sharper and more nasal when resonance and limiting are pushed.
+
+definitionlist::
+## freq: || cutoff frequency in Hz, intended range `20..20000`
+## q: || resonance/Q, intended range `0.5..2.5`
+## limitMode: || ARP limit-mode toggle, `0` or `1`
+## notchOffset: || notch offset amount, intended range `0..1`
+## mode: || integer mode selector: `0 = LPF2`, `1 = BPF2`, `2 = HPF2`, `3 = Notch`
+::
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::freq
+Cutoff frequency in Hz.
+
+argument::q
+Resonance/Q.
+
+argument::limitMode
+Enable or disable the ARP limit mode.
+
+argument::notchOffset
+Unipolar notch offset amount used in notch mode.
+
+argument::mode
+Integer mode selector.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = Saw.ar(110, 0.08);
+	ARPFilterCh.ar(src, freq: 900, q: 0.9, limitMode: 0, notchOffset: 0, mode: 0) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.18);
+	ARPFilterCh.ar(
+		src,
+		freq: MouseX.kr(120, 6000, 1),
+		q: MouseY.kr(0.5, 2.5),
+		limitMode: 1,
+		notchOffset: SinOsc.kr(0.2).range(0, 1),
+		mode: 3
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Pulse.ar(70, 0.35, 0.1);
+	ARPFilterCh.ar(src, freq: 1400, q: 0.707, limitMode: 0, notchOffset: 0, mode: LFSaw.kr(0.1).range(0, 3).round(1)) ! 2
+}.play
+)
+::

@@ -1,0 +1,42 @@
+class:: HardClipCh
+summary:: ADAA hard clipper based on chowdsp_utils
+categories:: UGens>Effects
+
+Description::
+
+HardClipCh follows chowdsp_utils' `ADAAHardClipper`. The target transfer function is the simplest possible one, hard limiting to `[-1, 1]`, but the implementation is not a naive `clip` call: it uses second-order ADAA, so the output is computed from antiderivatives of the clipping function and a short state history. In DSP terms that reduces the aliasing normally produced by the slope discontinuity of a hard clipper, at the cost of one-sample latency.
+
+Hard clipping has a long history in digital and analog distortion because it is immediate, bright, and harmonically dense. This version keeps that aggressive character, but with less folded-back high-frequency hash than a raw sample-by-sample clipper.
+
+ADAA literature describes the core idea as relying on "operations over the antiderivative of the nonlinear function," which is the same strategy used here to reduce aliasing without changing the target transfer curve.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	HardClipCh.ar(SinOsc.ar(110, 0, 1.8)) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	HardClipCh.ar((LFSaw.ar(80) * 2.5).tanh) ! 2 * 0.6
+}.play
+)
+::

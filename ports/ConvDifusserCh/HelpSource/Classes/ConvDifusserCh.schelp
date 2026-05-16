@@ -1,0 +1,47 @@
+class:: ConvDifusserCh
+summary:: Stereo convolution diffuser based on chowdsp_utils
+categories:: UGens>Effects
+
+Description::
+
+ConvDifusserCh follows the `ConvolutionDiffuser` design used in chowdsp reverbs. The kernel is generated from shaped noise, truncated by the requested diffusion time, scaled by the original `32 / sqrt(N)` law, and then applied through a partitioned convolution engine. In DSP terms this is not a room simulator by itself; it is a transient-smearing stage that redistributes energy across a short impulse response so later feedback or reverb stages receive a denser excitation.
+
+That makes it useful anywhere a source feels too point-like or too dry before entering a larger reverb structure. Short settings act like a soft spatial blur, while longer settings start to create a grainier, more obviously clouded onset that can help synthetic drums, plucks, and clicks sit deeper in a mix.
+
+definitionlist::
+## diffusionTime: || diffusion time in milliseconds, practical range `10..1000`
+::
+
+classmethods::
+
+method::ar
+
+argument::inL
+Left input.
+
+argument::inR
+Right input.
+
+argument::diffusionTime
+Diffusion time in milliseconds.
+
+Examples::
+
+code::
+(
+{
+	var src = Decay2.ar(Impulse.ar(1.2), 0.001, 0.06) * WhiteNoise.ar(0.2);
+	ConvDifusserCh.ar(src, src, 140)
+}.play
+)
+::
+
+code::
+(
+{
+	var srcL = PinkNoise.ar(0.08) * Decay2.ar(Impulse.ar(2), 0.001, 0.04);
+	var srcR = HPF.ar(srcL, 1200);
+	ConvDifusserCh.ar(srcL, srcR, MouseX.kr(40, 500, 1))
+}.play
+)
+::

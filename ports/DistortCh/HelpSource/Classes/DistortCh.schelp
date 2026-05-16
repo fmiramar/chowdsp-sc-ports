@@ -1,0 +1,60 @@
+class:: DistortCh
+summary:: Distortion effect based on the ChowDSP ChowDer module
+related:: Classes/LeakDC, Classes/HPF
+categories:: UGens>Filters>Nonlinear
+
+Description::
+
+DistortCh follows the active ChowDer signal path from ChowDSP-VCV. The input first passes through shelving EQ, then a driven and biased diode clipping stage, and the whole nonlinear section is evaluated at fixed 2x oversampling. In DSP terms the shelves pre-emphasize or de-emphasize what reaches the clipper, so `bass`, `treble`, `drive`, and `bias` all change the harmonic result rather than acting as isolated knobs.
+
+This kind of structure behaves more like a voiced distortion channel than a plain clipper. With conservative settings it can act as tone-shaping grit; with more drive and bias it becomes sharper, denser, and more obviously synthetic, especially on harmonically rich sources.
+
+definitionlist::
+## bass: || Tone control in the range `-1..1`.
+## treble: || Tone control in the range `-1..1`.
+## drive: || Input drive control in the range `0..1`.
+## bias: || Bias control in the range `0..1`.
+::
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::bass
+Low shelf control, normalized `-1..1`.
+
+argument::treble
+High shelf control, normalized `-1..1`.
+
+argument::drive
+Drive control, normalized `0..1`.
+
+argument::bias
+Bias control, normalized `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{ DistortCh.ar(SinOsc.ar(110, 0, 0.2), bass: 0.0, treble: 0.0, drive: 0.65, bias: 0.0) ! 2 * 0.5 }.play
+)
+::
+
+code::
+(
+{
+	var src = Saw.ar(70, 0.15);
+	var sig = DistortCh.ar(src, bass: MouseX.kr(-1, 1), treble: MouseY.kr(-1, 1), drive: 0.7, bias: 0.2);
+	LeakDC.ar(sig) ! 2 * 0.25
+}.play
+)
+::

@@ -1,0 +1,68 @@
+class:: SimpleReverbDifCh
+summary:: More faithful stereo port of the chowdsp_utils SimpleReverb example
+categories:: UGens>Effects
+related:: Classes/SimpleReverbCh, Classes/ConvDifusserCh
+
+Description::
+
+SimpleReverbDifCh follows the diffusion-oriented reverb variant built around the same broad chowdsp design language. The DSP emphasis here is on the early energy-spreading stages: short diffusers and delay interactions create a denser onset before the longer decay components take over. In practical terms that makes attacks feel less point-like and helps the reverb bloom faster, which is often what people want when a plain sparse delay network sounds too metallic or too obviously discrete.
+
+The sound is typically smoother at the front than a bare FDN or comb structure, with less obvious individual echoes and a quicker transition into a clouded tail. That is useful for vocals, pads, plucks, and any source where the early smear matters as much as the long decay.
+
+definitionlist::
+## diffusionTime: || convolution-diffuser time in milliseconds, intended range `10..1000`
+## fdnDelay: || base FDN delay time in milliseconds, intended range `50..500`
+## fdnT60Low: || low-frequency T60 in milliseconds, intended range `100..5000`
+## fdnT60High: || high-frequency T60 in milliseconds, intended range `100..5000`
+## modAmount: || normalized FDN delay modulation amount in `0..1`
+## dryWet: || dry/wet mix in `0..1`
+::
+
+classmethods::
+
+method::ar
+
+argument::inL
+Left input.
+
+argument::inR
+Right input.
+
+argument::diffusionTime
+Convolution-diffuser time in milliseconds.
+
+argument::fdnDelay
+Base FDN delay time in milliseconds.
+
+argument::fdnT60Low
+Low-frequency decay time in milliseconds.
+
+argument::fdnT60High
+High-frequency decay time in milliseconds.
+
+argument::modAmount
+Normalized modulation amount.
+
+argument::dryWet
+Dry/wet mix.
+
+Examples::
+
+code::
+(
+{
+	var src = Decay2.ar(Impulse.ar(1.5), 0.001, 0.05) * PinkNoise.ar(0.3);
+	SimpleReverbDifCh.ar(src, src, diffusionTime: 120, fdnDelay: 110, fdnT60Low: 900, fdnT60High: 550, modAmount: 0.2, dryWet: 0.35)
+}.play
+)
+::
+
+code::
+(
+{
+	var srcL = VarSaw.ar(70, 0, 0.3, 0.08);
+	var srcR = Pulse.ar(105, 0.35, 0.06);
+	SimpleReverbDifCh.ar(srcL, srcR, diffusionTime: 260, fdnDelay: SinOsc.kr(0.08).range(80, 220), fdnT60Low: SinOsc.kr(0.05).range(700, 3000), fdnT60High: SinOsc.kr(0.07).range(300, 1200), modAmount: SinOsc.kr(0.09).range(0, 1), dryWet: 0.4)
+}.play
+)
+::

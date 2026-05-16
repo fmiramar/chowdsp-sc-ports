@@ -1,0 +1,100 @@
+class:: RNNCh
+summary:: Four-input recurrent neural network based on the ChowDSP ChowRNN module
+categories:: UGens>Effects
+
+Description::
+
+RNNCh follows the ChowDSP ChowRNN module and keeps the original `Dense(4) -> Tanh(4) -> GRU(4) -> Dense(1)` architecture. This is a compact recurrent neural network, so four input channels are linearly combined, passed through a nonlinear stage, folded into a gated recurrent-unit state, and projected back to one audio output. In DSP language it is a learnable nonlinear dynamical system: the hidden state makes the response depend on context and recent history rather than only on the current inputs.
+
+Because the model is small and direct, RNNCh is useful as an experimental nonlinear processor as much as a finished effect. It can be driven as a compact learned system for dynamic distortion, control-to-audio mapping, or exploratory timbre design where explicit circuit interpretation is less important than stateful behavior.
+
+definitionlist::
+## in1, in2, in3, in4: || the four RNN input channels
+## randomize: || rising-edge trigger that replaces the network weights using `seed`
+## seed: || deterministic integer seed used on construction and on each `randomize` trigger
+## reset: || rising-edge trigger that clears the GRU hidden state and DC blocker without changing the weights
+::
+
+Unlike the Rack module, this first pass does not expose JSON save/load of the weight matrices. The output-layer bias is kept at zero, and the output includes the same DC blocker as the Rack module. Rack-side jack-count makeup gain is approximated from which SC inputs are not scalar zero.
+
+The ChowDSP-VCV repo also ships `examples/rnn.vcv`, a subtractive-voice patch built around two `ChowRNN` modules with stored weights. `RNNCh` currently does not import those saved JSON matrices, so the patch translation below mirrors the signal flow with deterministic `seed` values instead of the exact Rack models.
+
+classmethods::
+
+method::ar
+
+argument::in1
+Input channel 1.
+
+argument::in2
+Input channel 2.
+
+argument::in3
+Input channel 3.
+
+argument::in4
+Input channel 4.
+
+argument::randomize
+Rising-edge trigger to replace the current model weights.
+
+argument::seed
+Integer seed used for deterministic randomization.
+
+argument::reset
+Rising-edge trigger to reset the recurrent state.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var trig = Trig1.kr(Impulse.kr(0.5), 0.01);
+	RNNCh.ar(Saw.ar(110, 0.2), randomize: trig, seed: 17)
+}.play
+)
+::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.05);
+	RNNCh.ar(src, src * 0.5, SinOsc.ar(40, 0, 0.1), 0, reset: Trig1.kr(Impulse.kr(0.25), 0.01), seed: 99) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var trig = Impulse.kr(2);
+	var freq = Demand.kr(trig, 0, Dseq([36, 43, 48, 55, 53, 50].midicps, inf));
+	var gate = Trig1.kr(trig, 0.2);
+	var env = EnvGen.kr(Env.adsr(0.05, 0.35, 0.5, 0.3), gate);
+
+	var sin = SinOsc.ar(freq, 0, 0.12);
+	var tri = LFTri.ar(freq, 0, 0.12);
+	var saw = Saw.ar(freq, 0.12);
+	var pulse = Pulse.ar(freq, 0.5, 0.12);
+
+	var cutoffRNN = RNNCh.ar(saw, pulse, tri, sin, seed: 19).tanh;
+	var hpProbe = LocalIn.ar(1);
+	var rqRNN = RNNCh.ar(hpProbe, sin, 0, 0, seed: 21).tanh;
+
+	var src = Mix([saw, pulse * 0.6]);
+	var cutoff = (freq * (4 + (cutoffRNN * 10)) * (0.7 + (env * 5))).clip(80, 8000);
+	var rq = (0.12 + (rqRNN * 0.08)).clip(0.05, 0.5);
+	var low = RLPF.ar(src, cutoff, rq);
+	var high = HPF.ar(src, cutoff.max(80));
+
+	LocalOut.ar(high * 0.5);
+	(low * env * 0.4) ! 2
+}.play
+)
+::

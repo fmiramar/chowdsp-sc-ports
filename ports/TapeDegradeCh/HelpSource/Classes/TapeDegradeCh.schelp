@@ -1,0 +1,63 @@
+class:: TapeDegradeCh
+summary:: Tape degrade stage based on the ChowTape Degrade module
+categories:: UGens>Effects
+
+Description::
+
+TapeDegradeCh follows the ChowTape Degrade module. The stage combines modulation depth, degradation amount, variance, and envelope sensitivity to produce unstable, worn, and partially collapsing playback. Rather than modeling one isolated filter or one isolated shaper, it combines time variation and level-dependent control so the damage texture can move with the material.
+
+The audible result is more obviously lo-fi than the main tape saturation stage. It can introduce roughness, fluttery breakup, and a slight sense that the medium is losing coherence, which is useful for aging samples, breaking up sustained harmonics, or pushing pristine digital material into a more damaged presentation.
+
+definitionlist::
+## depth: || normalized `0..1` depth control, setting the base attenuation and noise depth
+## amount: || normalized `0..1` amount control, pushing the degrade filter cutoff from about `20 kHz` down toward `200 Hz`
+## variance: || normalized `0..1` variance control applied to the randomized filter and gain targets
+## envelope: || normalized `0..1` envelope-following amount for the injected noise
+::
+
+This port uses local deterministic xorshift RNGs instead of Rack's global random helpers, so exact random trajectories are not expected to match the Rack module sample-for-sample.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::depth
+Normalized depth control in `0..1`.
+
+argument::amount
+Normalized amount control in `0..1`.
+
+argument::variance
+Normalized variance control in `0..1`.
+
+argument::envelope
+Normalized envelope-following control in `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.08);
+	TapeDegradeCh.ar(src, depth: 0.35, amount: 0.6, variance: 0.2, envelope: 0.0) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Decay2.ar(Impulse.ar(2), 0.005, 0.18) * WhiteNoise.ar(0.4);
+	TapeDegradeCh.ar(src, depth: 0.6, amount: 0.7, variance: 0.5, envelope: 0.8) ! 2
+}.play
+)
+::

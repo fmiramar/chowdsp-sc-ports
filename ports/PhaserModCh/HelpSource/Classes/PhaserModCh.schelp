@@ -1,0 +1,65 @@
+class:: PhaserModCh
+summary:: Variable-stage LDR-shaped allpass modulator based on the ChowDSP ChowPhaserMod module
+categories:: UGens>Filters
+
+Description::
+
+PhaserModCh follows the modulation half of the ChowDSP CHOW Phaser module. The core is a cascade of first-order allpass stages whose coefficient is recomputed from an LFO-driven LDR-style resistance curve, so the phasing motion comes from continuously moving phase rotation rather than from amplitude modulation. Fractional stage values interpolate the contribution of the next stage, which is useful because the audible phaser depth depends strongly on how many notches are active.
+
+The result covers the gentler side of phasing: moving color, width, and notches without the stronger regenerative emphasis of the feedback variant. It is especially useful for animated filtering on pads, electric pianos, drones, and sustained guitar or synth material.
+
+definitionlist::
+## lfo: || expected roughly in the Rack bipolar range of `-5..+5`
+## skew: || `-1..1`, reshapes the LFO response
+## mod: || `0..1`, dry/wet mix
+## stages: || `1..50`, fractional values are allowed
+::
+
+Only the modulation module is ported here. The separate feedback module is not included in this package.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal to be phase-shifted.
+
+argument::lfo
+Modulation input. For Rack-like behavior, use a bipolar source scaled to about `5`, for example `SinOsc.kr(0.2) * 5`.
+
+argument::skew
+LDR-style skew control in `-1..1`.
+
+argument::mod
+Dry/wet mix in `0..1`.
+
+argument::stages
+Number of allpass stages in `1..50`. Fractional values interpolate the next stage.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.08);
+	var lfo = SinOsc.kr(0.15) * 5;
+	PhaserModCh.ar(src, lfo, skew: 0.15, mod: 0.8, stages: 8) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Saw.ar([110, 111], 0.06);
+	var lfo = LFTri.kr(0.09) * 5;
+	PhaserModCh.ar(src, lfo, skew: MouseX.kr(-1, 1), mod: 0.9, stages: MouseY.kr(1, 20)) * 0.8
+}.play
+)
+::

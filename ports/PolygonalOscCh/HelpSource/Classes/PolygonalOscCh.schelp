@@ -1,0 +1,61 @@
+class:: PolygonalOscCh
+summary:: Continuous-order polygon oscillator based on chowdsp_utils
+categories:: UGens>Generators
+
+Description::
+
+PolygonalOscCh follows the `PolygonalOscillator` example from chowdsp_utils. The oscillator derives its waveform from a polygonal geometry model rather than from a standard sine / saw / pulse formula, so `order` and `teeth` continuously reshape the harmonic structure while `freq` drives the fundamental period. In DSP terms the waveform is procedurally constructed from a geometric parameterization, which makes it possible to sweep through families of spectra that do not line up with the usual textbook analog shapes.
+
+That gives the oscillator a distinctly synthetic but not generic sound. Low orders can feel close to simpler periodic waves, while higher orders and tooth counts create brighter, more segmented spectra that are useful for animated leads, FM carriers, and timbres that need a more designed edge.
+
+definitionlist::
+## freq: || oscillator frequency in Hz, intended range `20..20000`
+## order: || polygon order, intended range `2.01..10`
+## teeth: || unipolar teeth amount, intended range `0..1`
+## gainDB: || output gain in dB, intended range `-30..0`
+::
+
+classmethods::
+
+method::ar
+
+argument::freq
+Oscillator frequency in Hz.
+
+argument::order
+Continuous polygon order.
+
+argument::teeth
+Teeth amount.
+
+argument::gainDB
+Output gain in dB.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	PolygonalOscCh.ar(freq: 220, order: 3.5, teeth: 0.0, gainDB: -18) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	PolygonalOscCh.ar(
+		freq: MouseX.kr(80, 2200, 1),
+		order: SinOsc.kr(0.11).range(2.2, 8.0),
+		teeth: MouseY.kr(0, 1),
+		gainDB: -20
+	) ! 2
+}.play
+)
+::

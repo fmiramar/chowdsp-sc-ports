@@ -1,0 +1,56 @@
+class:: TR808HatCh
+summary:: TR-808 hi-hat resonator port from WaveDigitalFilters
+categories:: UGens>Filters
+
+Description::
+
+TR808HatCh follows the `HatResonator` block from the `TR_808` set in `WaveDigitalFilters`. The input is treated as an excitation for the hi-hat resonator circuit, which is implemented as a wave-digital network with the original oversampling shell and parameter mappings. In DSP terms this is a resonant, circuit-derived filter body rather than a full synthesized hat voice, so the final sound depends strongly on what excites it.
+
+The TR-808 hi-hat family is known for bright metallic clusters with short noisy decays and a distinctly electronic edge. This block preserves the resonant coloration that gives those sounds their metallic bite, whether it is driven by impulses, pulse bursts, or other synthetic exciters.
+
+The nonlinear diode update follows the wave-digital literature cited in the source tree, including "An Improved and Generalized Diode Clipper Model for Wave Digital Filters."
+
+classmethods::
+
+method::ar
+
+argument::in
+Input or excitation signal.
+
+argument::freq
+Resonant frequency in Hz. Clamped to `1000..20000`.
+
+argument::res
+Resonance amount, clamped to `0..1`. Internally mapped like the plugin via `1 - res`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	TR808HatCh.ar(
+		WhiteNoise.ar(0.15) * Decay2.ar(Impulse.ar(8), 0.001, 0.02),
+		freq: 6000,
+		res: 0.55
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	TR808HatCh.ar(
+		Pulse.ar(12, 0.2, 0.12),
+		freq: SinOsc.kr(0.09).exprange(2500, 12000),
+		res: LFTri.kr(0.07).range(0.2, 0.9)
+	) ! 2 * 0.5
+}.play
+)
+::

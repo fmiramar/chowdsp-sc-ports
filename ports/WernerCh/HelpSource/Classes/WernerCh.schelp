@@ -1,0 +1,64 @@
+class:: WernerCh
+summary:: Generalized nonlinear state-variable filter based on the ChowDSP Werner module
+categories:: UGens>Filters
+
+Description::
+
+WernerCh follows the active Werner Filter DSP core from ChowDSP-VCV. The heart of the design is a generalized nonlinear state-variable filter evaluated at 2x oversampling, with cooked parameters for frequency, feedback, damping, and drive feeding a coupled state update. In DSP terms this is a recursive nonlinear filter, so the resonance, damping, and distortion are all part of the same evolving state rather than separate modules bolted together.
+
+That gives it a more animated and sometimes less polite sound than a textbook linear SVF. Moderate settings can behave like a musically driven resonant filter, while stronger feedback and drive move it toward aggressive, almost vocal or tearing nonlinear coloration.
+
+definitionlist::
+## freq: || filter frequency in Hz, clamped to `20..20000`
+## feedback: || resonant feedback amount in `0..1`
+## damping: || passband damping in `0.25..1.25`
+## drive: || internal nonlinear gain, approximately `0.1..10`
+::
+
+Internally, the coefficients are recalculated every 16 input samples to match the VCV module's parameter update cadence.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal to be filtered.
+
+argument::freq
+Filter frequency in Hz.
+
+argument::feedback
+Feedback amount in `0..1`.
+
+argument::damping
+Damping control in `0.25..1.25`.
+
+argument::drive
+Internal nonlinear gain in approximately `0.1..10`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.08);
+	WernerCh.ar(src, freq: 700, feedback: 0.55, damping: 0.5, drive: 0.2) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Saw.ar([110, 111], 0.05);
+	var freq = XLine.kr(200, 6000, 8);
+	WernerCh.ar(src, freq: freq, feedback: 0.7, damping: MouseX.kr(0.25, 1.25), drive: MouseY.kr(0.1, 3.0)) * 0.6
+}.play
+)
+::

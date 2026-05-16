@@ -1,0 +1,79 @@
+class:: AutoWahCh
+summary:: Envelope-followed peaking filter based on the chowdsp_utils AutoWah example
+categories:: UGens>Effects
+
+Description::
+
+AutoWahCh follows the `AutoWah` example from chowdsp_utils. The effect is built from two pieces: an envelope follower measures recent signal level, and that control signal drives the center frequency of a peaking filter. In DSP terms it is a time-varying filter whose coefficients depend on a smoothed estimate of signal amplitude, so strong attacks open the filter and decays let it fall back.
+
+That is the classic auto-wah idea heard on funk guitar, clavinet, and percussive synth lines. Compared with a manually swept wah, this version feels more reactive than gestural: the brightness and vocal emphasis come from the player's dynamics or the input signal contour itself.
+
+definitionlist::
+## freq: || base wah frequency in Hz, intended range `200..2000`
+## q: || peaking-filter Q, intended range `1..15`
+## gainDB: || peaking-filter gain in dB, intended range `0..12`
+## attackMs: || level-detector attack time in milliseconds, intended range `0.1..10`
+## releaseMs: || level-detector release time in milliseconds, intended range `2.5..250`
+## freqMod: || normalized sweep amount, intended range `0..1`
+::
+
+Unlike the JUCE example, this standalone port is mono-per-instance and does not expose the plugin editor. SC multichannel expansion still works normally.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::freq
+Base wah frequency in Hz.
+
+argument::q
+Filter Q value.
+
+argument::gainDB
+Filter boost in dB.
+
+argument::attackMs
+Envelope follower attack time in milliseconds.
+
+argument::releaseMs
+Envelope follower release time in milliseconds.
+
+argument::freqMod
+Normalized sweep amount in `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = LPF.ar(WhiteNoise.ar(0.2), 1200);
+	AutoWahCh.ar(src, freq: 450, q: 5, gainDB: 6, attackMs: 1, releaseMs: 60, freqMod: 0.45) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Decay2.ar(Impulse.ar(3), 0.002, 0.08) * PinkNoise.ar(0.5);
+	AutoWahCh.ar(
+		src,
+		freq: MouseX.kr(200, 2000),
+		q: 7,
+		gainDB: 9,
+		attackMs: 0.5,
+		releaseMs: 80,
+		freqMod: MouseY.kr(0, 1)
+	) ! 2
+}.play
+)
+::

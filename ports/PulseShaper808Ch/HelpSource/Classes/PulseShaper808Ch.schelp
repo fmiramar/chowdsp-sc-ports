@@ -1,0 +1,60 @@
+class:: PulseShaper808Ch
+summary:: TR-808 style pulse shaper based on the ChowDSP ChowPulse module
+related:: Classes/ModalCh
+categories:: UGens>Generators>Deterministic
+
+Description::
+
+PulseShaper808Ch follows the ChowDSP `ChowPulse` implementation of the TR-808 kick pulse-shaping circuit. The DSP is a wave-digital model of the analog exciter network, so a short trigger is translated into a shaped pulse whose attack, overshoot, and decay are determined by the same circuit interactions as the source. In mathematical terms the useful output is the transient response of a nonlinear circuit, which is why it works both as an envelope-like signal and as an exciter for resonators.
+
+That kind of pulse shaping is central to classic analog drum synthesis: a very small electrical event is turned into a controllable impact that can then drive a resonant body. Used alone it sounds like a sharp electronic click or thump; used upstream of resonators it becomes the front edge that makes an 808-style kick feel alive.
+
+Where the source uses Wright-Omega / Lambert-W style closed-form approximations, it follows the method described as giving "high accuracy, low computational cost, and" models that are "stable in all conditions."
+
+definitionlist::
+## width: || normalized `0..1`, mapped to approximately `1..300 ms`
+## decay: || normalized `0..1`, mapped to approximately `10..300 ms`
+## doubleTap: || normalized `-1..1`, controls the negative-going secondary spike
+::
+
+The trigger detector is implemented here as a Schmitt-style rising-edge detector. Send short positive triggers or gates into code::trig::.
+
+classmethods::
+
+method::ar
+
+argument::trig
+Trigger or gate input.
+
+argument::width
+Pulse-width control, normalized `0..1`.
+
+argument::decay
+Decay control, normalized `0..1`.
+
+argument::doubleTap
+Secondary-spike control, normalized `-1..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{ PulseShaper808Ch.ar(Impulse.ar(2), width: 0.5, decay: 0.5, doubleTap: 0.0) ! 2 * 0.5 }.play
+)
+::
+
+code::
+(
+{
+	var trig = Dust.ar(3);
+	var env = PulseShaper808Ch.ar(trig, width: MouseX.kr(0, 1), decay: MouseY.kr(0, 1), doubleTap: 0.4);
+	ModalCh.ar(env * 0.2, 120, 1.2, 1.0, 0) ! 2 * 0.2
+}.play
+)
+::

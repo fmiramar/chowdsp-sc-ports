@@ -1,0 +1,49 @@
+class:: PassiveLPFCh
+summary:: Passive second-order RC low-pass filter port from WaveDigitalFilters
+categories:: UGens>Filters
+
+Description::
+
+PassiveLPFCh follows the `PassiveLPF` example from `WaveDigitalFilters`. The circuit is a passive second-order RC low-pass network evaluated through a 2x oversampled wave-digital shell, so the cutoff behavior is produced by the same resistor-capacitor energy exchange as the analog prototype rather than by a generic biquad coefficient formula. Because the network is passive, the filter naturally trades brightness for level as the cutoff moves downward.
+
+In practice this reads as a straightforward but musical tone roll-off. It is useful when you want filtering that feels like simple analog loading and attenuation rather than a resonant or overtly synthetic filter gesture.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::freq
+Cutoff frequency in Hz. Clamped to `20..20000`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	PassiveLPFCh.ar(
+		Saw.ar(110, 0.15),
+		freq: 700
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	PassiveLPFCh.ar(
+		WhiteNoise.ar(0.12) * Decay2.ar(Impulse.ar(4), 0.005, 0.12),
+		freq: SinOsc.kr(0.08).exprange(100, 8000)
+	) ! 2 * 0.6
+}.play
+)
+::

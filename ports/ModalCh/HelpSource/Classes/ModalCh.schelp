@@ -1,0 +1,91 @@
+class:: ModalCh
+summary:: Single-mode resonator based on the Max Mathews phasor filter
+related:: Classes/Ringz, Classes/Klank, Classes/DynKlank
+categories:: UGens>Filters>Linear
+
+Description::
+
+ModalCh follows the core recursion used by ChowModal rather than approximating it with a stock resonator. The state update is the complex one-pole modal equation described in the notes, so each sample advances a decaying complex resonance and the output is taken from its imaginary part. In DSP terms this is a direct digital modal resonator: frequency sets the rotation rate of the pole, decay sets the pole radius, and `amp` plus `phase` define how the input excites that mode.
+
+That makes ModalCh a very compact building block for physical-model and percussion work. It can sound like a tuned ringing partial, a struck bar component, or one resonance inside a larger body model, and it is especially useful when you want precise control over decay and excitation phase rather than just a generic ringing filter.
+
+classmethods::
+
+method::ar
+
+argument::in
+Excitation signal.
+
+argument::freq
+Mode frequency in Hertz.
+
+argument::decay
+T60 decay time in seconds.
+
+argument::amp
+Complex excitation amplitude magnitude.
+
+argument::phase
+Complex excitation amplitude phase in radians.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{ ModalCh.ar(Decay2.ar(Impulse.ar(2), 0.001, 0.03), 440, 1.4, 0.25, 0) ! 2 * 0.5 }.play
+)
+::
+
+code::
+(
+{
+	var exc = Decay2.ar(Dust.ar(3), 0.001, 0.02);
+	var sig = ModalCh.ar(exc, XLine.kr(220, 1760, 8), 1.2, 0.35, SinOsc.kr(0.2));
+	LeakDC.ar(sig) ! 2 * 0.3
+}.play
+)
+::
+
+code::
+(
+{
+	var c4 = 261.625565;
+	var gate = Trig1.kr(Impulse.kr(2), 0.16);
+	var exc = EnvGen.ar(Env.adsr(0.01, 0.12, 0.0, 0.0), gate) * 10;
+	var modalMod = SinOsc.kr(1.5) * 0.403;
+
+	var mode1 = LeakDC.ar(ModalCh.ar(
+		exc,
+		freq: c4 * (2 ** ((1.00799763 / 12) + modalMod)),
+		decay: 7 * 0.8325001,
+		amp: 0.01 * 1.0,
+		phase: 0.544500113
+	));
+
+	var mode2 = LeakDC.ar(ModalCh.ar(
+		exc,
+		freq: c4 * (2 ** ((11.3939991 / 12) + modalMod)),
+		decay: 7 * 0.297000051,
+		amp: 0.01 * 1.0,
+		phase: 0.544500113
+	));
+
+	var mode3 = LeakDC.ar(ModalCh.ar(
+		exc,
+		freq: c4 * (2 ** (-11.8799992 / 12)),
+		decay: 7 * 0.412500113,
+		amp: 0.01 * 0.616000056,
+		phase: 0.544500113 + (0.1 * modalMod)
+	));
+
+	mode3 = TapeCh.ar(mode3, bias: 0.0, saturation: 0.836000025, drive: 0.252499968);
+	(mode1 + mode2 + mode3) ! 2 * 0.8
+}.play
+)
+::

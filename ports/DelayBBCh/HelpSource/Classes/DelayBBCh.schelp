@@ -1,0 +1,73 @@
+class:: DelayBBCh
+summary:: Mono bucket-brigade style delay based on the ChowDSP BBD model
+categories:: UGens>Effects
+
+Description::
+
+DelayBBCh repackages the BBD delay core already used by the ChowDSP chorus family as a direct effect. The main DSP object is a fixed-stage bucket-brigade line surrounded by the same Juno-style input and output filter banks, plus saturating drive before the line and DC-managed feedback around it. In DSP terms a BBD delay is a clocked sample-and-hold chain, so the characteristic tone comes from the interaction between the clock rate, anti-imaging filters, and feedback path rather than from a clean ideal delay alone.
+
+That gives this UGen the familiar short analog-delay vocabulary: softened repeats, bandwidth loss on feedback, and a more animated texture as the delay time gets shorter and the internal clock rises. Negative or high feedback settings can move it toward combing and metallic resonance rather than just conventional echo.
+
+definitionlist::
+## in: || Input signal.
+## delayTime: || Delay time in seconds, clamped internally to `0.001..0.5`.
+## filterFreq: || BBD filter-bank frequency scale in Hz, clamped to `200..Nyquist * 0.49`.
+## feedback: || Bipolar feedback amount in `-0.995..0.995`.
+## driveDB: || Input gain into the BBD path in dB, clamped to `-24..24`.
+## mix: || Dry/wet mix in `0..1`.
+::
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::delayTime
+Delay time in seconds.
+
+argument::filterFreq
+Filter-bank frequency scale in Hz.
+
+argument::feedback
+Feedback amount.
+
+argument::driveDB
+Input drive in dB before the BBD line.
+
+argument::mix
+Dry/wet mix.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = Decay2.ar(Impulse.ar(1.2), 0.01, 0.12) * WhiteNoise.ar(0.2);
+	DelayBBCh.ar(src, delayTime: 0.07, filterFreq: 8500, feedback: 0.35, driveDB: 6, mix: 0.7) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Saw.ar(110, 0.08);
+	DelayBBCh.ar(
+		src,
+		delayTime: MouseX.kr(0.01, 0.18, 1),
+		filterFreq: MouseY.kr(1200, 12000, 1),
+		feedback: SinOsc.kr(0.08).range(-0.3, 0.6),
+		driveDB: 3,
+		mix: 0.65
+	) ! 2
+}.play
+)
+::

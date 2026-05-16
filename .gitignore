@@ -1,0 +1,7 @@
+build/
+dist/
+stage/
+external/
+.DS_Store
+*.zip
+*.tar.gz

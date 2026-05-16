@@ -1,0 +1,61 @@
+class:: DiodeClipperCh
+summary:: RC diode clipper port from WaveDigitalFilters
+categories:: UGens>Effects
+
+Description::
+
+DiodeClipperCh follows the `DiodeClipper` circuit from `WaveDigitalFilters`. It is a wave-digital model of an RC network terminated by an anti-parallel diode clipper, driven with input and output gain stages and processed at 2x oversampling to reduce alias fold-back from the nonlinear branch. The solver works in the wave domain, updating incident and reflected wave variables so the discrete-time system tracks the original circuit topology more closely than a one-line clip function would.
+
+Anti-parallel diode clippers are one of the canonical building blocks of overdrive and distortion pedals. The sound is firmer and more abrupt than tube-style saturation, but still shaped heavily by the surrounding filters, so cutoff and gain affect not only brightness but also how sharply the clipping knee is reached.
+
+The nonlinear diode update follows the wave-digital literature cited in the source tree, including "An Improved and Generalized Diode Clipper Model for Wave Digital Filters."
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::cutoff
+Clipper cutoff in Hz.
+
+argument::gainDB
+Input gain in dB, clamped to `0..30`.
+
+argument::outDB
+Output trim in dB, clamped to `-30..30`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	DiodeClipperCh.ar(
+		SinOsc.ar(120, 0, 0.5),
+		cutoff: 900,
+		gainDB: 18,
+		outDB: -6
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	DiodeClipperCh.ar(
+		Saw.ar(70, 0.12),
+		cutoff: SinOsc.kr(0.08).exprange(120, 6000),
+		gainDB: LFTri.kr(0.1).range(3, 24),
+		outDB: -9
+	) ! 2 * 0.5
+}.play
+)
+::

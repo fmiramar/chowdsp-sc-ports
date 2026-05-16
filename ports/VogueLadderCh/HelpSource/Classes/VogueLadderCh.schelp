@@ -1,0 +1,86 @@
+class:: VogueLadderCh
+summary:: BYOD ladder filter port with cascaded high-pass, low-pass, and drive
+categories:: UGens>Filters
+
+Description::
+
+VogueLadderCh follows the public BYOD ladder filter module. The structure is unusual but direct: a resonant four-pole high-pass ladder feeds a resonant four-pole low-pass ladder, and the output then passes through the original nonlinear drive stage. Cutoff is mapped through the same control-voltage-to-frequency law as BYOD, resonance is skew-mapped into the ladder feedback amount, and the drive control crossfades between linear throughput and tanh-style saturation after gain scaling.
+
+A transistor-ladder family filter is historically associated with rounded but forceful subtractive sweeps, especially when resonance is pushed toward self-oscillation. Because this module cascades high-pass and low-pass ladders, it can act like a broad band-pass contour, a resonant sculpting tool, or a self-oscillating synthetic voice element depending on the two cutoff points and resonance settings.
+
+definitionlist::
+## hpCutoff: || normalized `0..1`, mapped through the original `-5V..+5V` control-voltage response
+## hpResonance: || normalized `0..1`, skewed and mapped to `0..4`
+## lpCutoff: || normalized `0..1`, mapped through the original `-5V..+5V` control-voltage response
+## lpResonance: || normalized `0..1`, skewed and mapped to `0..4`
+## drive: || normalized `0..1`, mapped to `-24..+24 dB` and used both as gain and saturation blend
+## oscillating: || `0` keeps resonance capped below self-oscillation, `1` allows full resonance
+::
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::hpCutoff
+Normalized high-pass cutoff.
+
+argument::hpResonance
+Normalized high-pass resonance.
+
+argument::lpCutoff
+Normalized low-pass cutoff.
+
+argument::lpResonance
+Normalized low-pass resonance.
+
+argument::drive
+Normalized drive amount.
+
+argument::oscillating
+Oscillation mode switch. Values `>= 0.5` enable the uncapped resonance range.
+
+argument::stereo
+Set to a positive value to request a 2-channel output. The current implementation processes both channels from the same mono input signal.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	VogueLadderCh.ar(
+		WhiteNoise.ar(0.15),
+		hpCutoff: 0.15,
+		hpResonance: 0.2,
+		lpCutoff: 0.7,
+		lpResonance: 0.25,
+		drive: 0.55
+	)
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Saw.ar([70, 70.2], 0.08).sum;
+	VogueLadderCh.ar(
+		src,
+		hpCutoff: LFTri.kr(0.05).range(0.0, 0.4),
+		hpResonance: 0.15,
+		lpCutoff: SinOsc.kr(0.07).range(0.25, 0.95),
+		lpResonance: LFTri.kr(0.08).range(0.1, 0.85),
+		drive: 0.7,
+		oscillating: 1.0
+	) ! 2 * 0.3
+}.play
+)
+::

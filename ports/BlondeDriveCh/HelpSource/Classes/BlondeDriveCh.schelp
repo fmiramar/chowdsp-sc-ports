@@ -1,0 +1,9 @@
+class:: BlondeDriveCh
+summary:: BYOD-derived voiced drive stage
+categories:: UGens>Filters
+
+Description::
+
+BlondeDriveCh follows BYOD's public `Blonde Drive` processor. The signal path combines a driven nonlinear stage, a `character` filter that reshapes the mids around that stage, and a `bias` control that offsets the operating point so the distortion can move between more symmetric and more asymmetric clipping. The nonlinearity is solved sample by sample with Newton iteration, which means the stage behaves like an implicit nonlinear equation rather than like a single static transfer lookup.
+
+That matters sonically because bias, drive, and filtering interact: changing one control changes not just output level but also compression, odd/even harmonic balance, and the way transients fold into the nonlinear region. The result sits in the driven preamp / amp-in-a-box family, generally fuller and less square-edged than a hard diode clipper.

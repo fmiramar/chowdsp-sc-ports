@@ -1,0 +1,53 @@
+class:: TR808OutCh
+summary:: TR-808 output filter port from WaveDigitalFilters
+categories:: UGens>Filters
+
+Description::
+
+TR808OutCh follows the `OutputFilter` block from the `TR_808` set in `WaveDigitalFilters`. It models the final analog tone-and-level stage that sits after an 808 voice or subcircuit, so the DSP is less about generating new harmonics and more about the last bit of filtering, level trimming, and impedance-shaped coloration. The wave-digital formulation keeps that small but important circuit behavior intact.
+
+Historically, these output stages matter because the recognizable sound of classic drum machines is not just the resonator or noise source in isolation; it is also the way the final analog electronics darken, tilt, and scale the signal before it leaves the voice board. This UGen is therefore most useful at the end of an 808-style chain, where it adds finish rather than spectacle.
+
+definitionlist::
+## volume: || normalized `0..1`, using the original squared log-taper approximation
+## tone: || normalized `0..1`, using the original square-root anti-log taper approximation
+::
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::volume
+Output level control, clamped to `0..1`.
+
+argument::tone
+Tone control, clamped to `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = WhiteNoise.ar(0.2) * Decay2.ar(Impulse.ar(4), 0.001, 0.03);
+	TR808OutCh.ar(src, volume: 0.8, tone: 0.35) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = PulseShaper808Ch.ar(Impulse.ar(2), width: 0.55, decay: 0.45, doubleTap: 0.2);
+	TR808OutCh.ar(src * 0.3, volume: MouseX.kr(0, 1), tone: MouseY.kr(0, 1)) ! 2
+}.play
+)
+::

@@ -1,0 +1,62 @@
+class:: PhaserFBCh
+summary:: LDR-shaped feedback phaser section based on the ChowDSP ChowPhaserFeedback module
+related:: Classes/PhaserModCh
+categories:: UGens>Filters
+
+Description::
+
+PhaserFBCh follows the feedback half of the ChowDSP CHOW Phaser module. Internally it is a modulated allpass structure with a feedback path whose coefficients are shaped by the bipolar LFO and the LDR-style skew mapping from the source. In DSP terms the feedback does more than add depth: it sharpens the moving notches and pushes the phase response closer to self-emphasized comb-like motion before the final soft saturation rounds the level back down.
+
+That means this UGen is the more intense, resonant side of the phaser design. It can range from smooth sweep enhancement to a distinctly vocal, almost jet-like motion depending on feedback, skew, and stage tuning.
+
+definitionlist::
+## lfo: || expected roughly in the Rack bipolar range of `-5..+5`
+## skew: || `-1..1`, reshapes the LFO response
+## feedback: || `0..0.95`, controls the feedback amount
+::
+
+Only the feedback module is ported here. The separate modulation-stage module is provided as link::Classes/PhaserModCh::.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal to be phase-shifted.
+
+argument::lfo
+Modulation input. For Rack-like behavior, use a bipolar source scaled to about `5`, for example `SinOsc.kr(0.2) * 5`.
+
+argument::skew
+LDR-style skew control in `-1..1`.
+
+argument::feedback
+Feedback amount in `0..0.95`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.08);
+	var lfo = SinOsc.kr(0.18) * 5;
+	PhaserFBCh.ar(src, lfo, skew: 0.1, feedback: 0.6) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Saw.ar([110, 111], 0.05);
+	var lfo = LFTri.kr(0.07) * 5;
+	PhaserFBCh.ar(src, lfo, skew: MouseX.kr(-1, 1), feedback: MouseY.kr(0, 0.95)) * 0.8
+}.play
+)
+::

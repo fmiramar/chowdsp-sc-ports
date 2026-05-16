@@ -1,0 +1,59 @@
+class:: TapeChewCh
+summary:: Tape chew/crinkle stage based on the ChowTape Chew module
+categories:: UGens>Effects
+
+Description::
+
+TapeChewCh follows the ChowTape Chew module. This stage modulates short-time playback irregularity: `depth`, `frequency`, and `variance` shape a slow, imperfect time warp that behaves more like damaged or physically unstable tape transport than like a polished chorus. In DSP terms it is a controlled time-varying delay / resampling process designed to create nonuniform pitch wobble and timing smear rather than transparent modulation.
+
+The characteristic sound is warble, drag, and slightly chewed attacks. It is useful when you want an obviously worn or unstable tape feel, especially on sustained pads, piano, sampled material, or any source that benefits from broken-mechanical motion instead of clean modulation.
+
+definitionlist::
+## depth: || normalized `0..1` control for chew intensity
+## frequency: || normalized `0..1` control for how often the signal enters the chewed state
+## variance: || normalized `0..1` control for randomized chew timing and chew depth variation
+::
+
+This port uses local deterministic xorshift RNGs instead of Rack's global random helpers, so exact chew timing and power trajectories are not expected to match the Rack module sample-for-sample. It also guards the randomized wet/dry duration range so the standalone port cannot hit a zero-width modulo path.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::depth
+Normalized chew-depth control in `0..1`.
+
+argument::frequency
+Normalized chew-frequency control in `0..1`.
+
+argument::variance
+Normalized chew-variance control in `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.08);
+	TapeChewCh.ar(src, depth: 0.4, frequency: 0.6, variance: 0.3) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Saw.ar(70, 0.25);
+	TapeChewCh.ar(src, depth: 0.75, frequency: MouseX.kr(0, 1), variance: MouseY.kr(0, 1)) ! 2
+}.play
+)
+::

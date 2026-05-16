@@ -1,0 +1,59 @@
+class:: BaxandallCh
+summary:: Baxandall EQ port from WaveDigitalFilters
+categories:: UGens>Effects
+
+Description::
+
+BaxandallCh follows the `BaxandallEQ` circuit model from `WaveDigitalFilters`. The network is a wave-digital realization of a broad two-band tone control, so the bass and treble knobs move equivalent circuit values and the solver propagates incident and reflected waves through the RC network at 2x oversampling. The fixed output gain in the original model is kept because a passive Baxandall-style network naturally loses level around the flat setting.
+
+A Baxandall design is historically associated with hi-fi tone controls and amp tone sections that make wide, gentle shelves rather than narrow surgical peaks. In use, this reads more like musical tone shaping than like a parametric EQ: it can darken, brighten, and rebalance a source without strongly calling attention to filter resonance.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::bass
+Normalized bass control in `0..1`.
+
+argument::treble
+Normalized treble control in `0..1`.
+
+argument::mode
+WDF solver choice. `0` is unadapted, `1` is adapted.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	BaxandallCh.ar(
+		PinkNoise.ar(0.08),
+		bass: 0.75,
+		treble: 0.35,
+		mode: 0
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	BaxandallCh.ar(
+		Saw.ar(90, 0.08),
+		bass: SinOsc.kr(0.09).range(0.2, 0.8),
+		treble: LFTri.kr(0.07).range(0.15, 0.85),
+		mode: 1
+	) ! 2 * 0.5
+}.play
+)
+::

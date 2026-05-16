@@ -1,0 +1,59 @@
+class:: TapeCompCh
+summary:: Tape-style compressor stage based on the ChowTape Compression module
+categories:: UGens>Effects
+
+Description::
+
+TapeCompCh follows the ChowTape Compression module. The stage measures level with the original timing law and applies gain reduction using the same normalized amount, attack, and release controls as the source. In DSP terms this is a dynamics processor rather than a saturator: the important math is the moving gain envelope and how quickly it reacts to transients and recovers afterward.
+
+Tape-associated compression is usually valued less for invisibility than for density and glue. With slower timing it can hold material together gently; with faster timing and more amount it becomes more obviously pumping and can help drums, bass, or loops feel flatter, thicker, and more forward.
+
+definitionlist::
+## amount: || compression amount in dB, clamped to `0..9`
+## attack: || normalized `0..1` attack control mapped to approximately `0.1..50 ms`
+## release: || normalized `0..1` release control mapped to approximately `10..1000 ms`
+::
+
+The input is processed at normal audio rate without oversampling. Like the Rack module, the signal is normalized to `+/- 1` internally and then scaled back to the Rack-style `+/- 5 V` range.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::amount
+Compression amount in dB.
+
+argument::attack
+Normalized attack control in `0..1`.
+
+argument::release
+Normalized release control in `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	var src = Saw.ar(110, 0.35);
+	TapeCompCh.ar(src, amount: 4.5, attack: 0.3, release: 0.7) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = Decay2.ar(Impulse.ar(2), 0.005, 0.15) * WhiteNoise.ar(0.45);
+	TapeCompCh.ar(src, amount: SinOsc.kr(0.15).range(0, 9), attack: 0.1, release: 0.9) ! 2
+}.play
+)
+::

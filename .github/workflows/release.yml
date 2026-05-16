@@ -1,0 +1,73 @@
+name: Build Releases
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  SC_VERSION: "3.14.1"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: linux-x64
+          - os: windows-2022
+            platform: windows-x64
+          - os: macos-13
+            platform: macos-x64
+          - os: macos-14
+            platform: macos-arm64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Linux build tools
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+
+      - name: Clone SuperCollider source
+        run: git clone --depth 1 --branch Version-${{ env.SC_VERSION }} https://github.com/supercollider/supercollider.git external/supercollider
+
+      - name: Build all ports
+        run: >
+          python scripts/build_release.py
+          --sc-path external/supercollider
+          --build-root build
+          --stage-root stage/Extensions
+
+      - name: Package release archive
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME:-dev}"
+          python scripts/package_release.py \
+            --stage-root stage/Extensions \
+            --output-dir dist \
+            --version "$VERSION" \
+            --platform "${{ matrix.platform }}"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChowDSP-SC-Ports-${{ matrix.platform }}
+          path: dist/*.zip
+
+      - name: Upload GitHub release asset
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip

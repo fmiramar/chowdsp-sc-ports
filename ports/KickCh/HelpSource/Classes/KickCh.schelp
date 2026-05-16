@@ -1,0 +1,169 @@
+class:: KickCh
+summary:: Kick drum synth UGen ported from ChowKick
+categories:: UGens>Synthesis
+
+Description::
+
+KickCh follows the full ChowDSP `ChowKick` signal path. A trigger pulse excites a wave-digital pulse shaper, the result drives a nonlinear resonant body filter, a filtered noise burst adds beater or snare-like attack content, and the output is finally voiced by the original tone filter and DC blocker. In DSP terms this is a small percussion synthesizer rather than a single resonator: each stage contributes a different physical or perceptual part of the kick sound.
+
+That layered structure is why the UGen can move from clean analog-electronic thumps to more aggressive modern kick tones. The circuit-derived pulse and body stages are especially tied to the classic drum-machine lineage, where a very short excitation is shaped into a pitched decay by resonant analog filtering.
+
+The nonlinear diode update follows the wave-digital literature cited in the source tree, including "An Improved and Generalized Diode Clipper Model for Wave Digital Filters."
+
+definitionlist::
+## trig: || Rising-edge trigger input. The trigger threshold follows the existing port convention: arm below `0.1`, fire above `1.0`.
+## freq: || Resonant frequency in Hz, sampled and latched on each trigger. Internally clamped to `30..500`.
+## pulseWidthMs: || Trigger pulse width in milliseconds, clamped to `0.025..2.5`.
+## pulseAmp: || Trigger pulse amplitude in `0..1`.
+## velocity: || Per-hit trigger scaling in `0..2`.
+## voices: || Number of internal round-robin voices, clamped to `1..4`.
+## sustain: || Pulse shaper sustain in `0..1`.
+## decay: || Pulse shaper decay in `0..1`.
+## q: || Resonant filter Q, clamped to `0.1..2.0`.
+## damping: || Resonant filter damping in `0..1`.
+## tight: || Nonlinear filter "tight" amount in `0..1`.
+## bounce: || Nonlinear filter "bounce" amount in `0..1`.
+## mode: || Resonant filter mode: `0 = Linear`, `1 = Basic`, `2 = Bouncy`.
+## portamentoMs: || Glide time applied when a reused internal voice is retriggered at a new pitch.
+## noiseAmt: || Noise burst amount in `0..1`.
+## noiseDecay: || Noise-follow decay shaping in `0..1`.
+## noiseCutoff: || Noise lowpass cutoff in Hz.
+## noiseType: || `0 = Uniform`, `1 = Normal`, `2 = Pink`.
+## tone: || Output tone lowpass cutoff in Hz, clamped to `300..7000`.
+## levelDB: || Output gain trim in dB, clamped to `-30..30`.
+::
+
+classmethods::
+
+method::ar
+
+argument::trig
+Trigger input.
+
+argument::freq
+Per-hit kick frequency in Hz.
+
+argument::pulseWidthMs
+Trigger pulse width in milliseconds.
+
+argument::pulseAmp
+Trigger pulse amplitude.
+
+argument::velocity
+Per-hit trigger scaling.
+
+argument::voices
+Number of internal overlapping voices.
+
+argument::sustain
+Pulse shaper sustain.
+
+argument::decay
+Pulse shaper decay.
+
+argument::q
+Resonant filter Q.
+
+argument::damping
+Resonant filter damping.
+
+argument::tight
+Resonant filter tightness.
+
+argument::bounce
+Resonant filter bounce.
+
+argument::mode
+Resonant filter mode.
+
+argument::portamentoMs
+Voice glide time in milliseconds.
+
+argument::noiseAmt
+Noise amount.
+
+argument::noiseDecay
+Noise decay shaping.
+
+argument::noiseCutoff
+Noise cutoff in Hz.
+
+argument::noiseType
+Noise type selector.
+
+argument::tone
+Output tone cutoff in Hz.
+
+argument::levelDB
+Output level trim in dB.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	KickCh.ar(
+		trig: Impulse.ar(2),
+		freq: 55,
+		voices: 2,
+		noiseAmt: 0.15,
+		bounce: 0.2
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var trig = Impulse.kr(4);
+	var freq = Demand.kr(trig, 0, Dseq([45, 52, 40, 57], inf));
+
+	KickCh.ar(
+		trig: trig,
+		freq: freq,
+		voices: 4,
+		pulseWidthMs: 0.6,
+		sustain: 0.35,
+		decay: 0.7,
+		q: 0.75,
+		damping: 0.25,
+		tight: 0.8,
+		bounce: 0.35,
+		mode: 2,
+		noiseAmt: 0.18,
+		noiseDecay: 0.7,
+		noiseCutoff: 2400,
+		tone: 1200,
+		levelDB: -3
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var trig = Impulse.kr(3);
+	var freq = Demand.kr(trig, 0, Dseq([48, 48, 43, 55, 36, 43], inf));
+
+	KickCh.ar(
+		trig: trig,
+		freq: freq,
+		voices: 3,
+		velocity: TExpRand.kr(0.5, 1.4, trig),
+		pulseWidthMs: LFNoise1.kr(0.4).range(0.15, 1.5),
+		portamentoMs: 20,
+		noiseAmt: LFNoise1.kr(0.3).range(0.0, 0.25),
+		noiseType: 2,
+		tone: SinOsc.kr(0.1).range(500, 2500)
+	) ! 2
+}.play
+)
+::

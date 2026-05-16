@@ -1,0 +1,25 @@
+class:: BassFaceCh
+summary:: BYOD-derived heavy bass distortion model
+categories:: UGens>Filters
+
+Description::
+
+BassFaceCh follows BYOD's public `Bass Face` model. The core DSP is a conditioned residual LSTM: for every sample, the network receives the audio sample together with the normalized `gain` control, updates its hidden state, and predicts a nonlinear output that is mixed in the same residual way as the source processor. Mathematically this is a nonlinear state-space model, so the tone depends not only on the current sample value but also on the recent signal history carried in the recurrent state.
+
+The port keeps BYOD's public model assets and sample-rate strategy, including oversampled operation at standard project rates. Sonically this kind of model tends to sound thicker and more program-dependent than a memoryless shaper, with compression, sustain, and low-end behavior that change with playing dynamics rather than only with instantaneous amplitude.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::gain
+Normalized gain amount, `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.

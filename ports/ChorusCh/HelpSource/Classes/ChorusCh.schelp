@@ -1,0 +1,57 @@
+class:: ChorusCh
+summary:: Stereo BBD chorus based on the ChowDSP ChowChorus module
+categories:: UGens>Effects
+
+Description::
+
+ChorusCh follows the ChowDSP chorus module as a mono-in, stereo-out effect with BBD-style delay lines. The core math is time-varying delay: each side mixes dry signal with multiple short delays whose lengths are continuously modulated by paired slow and fast LFOs, and the delayed paths are fed back through the same model. Because a changing delay length implies a tiny pitch shift, the ear hears width, motion, and detuning rather than a static echo.
+
+The use of BBD-style filtering matters as much as the modulation. A bucket-brigade model naturally rolls off bandwidth and accumulates a bit of haze, which is part of the classic ensemble and vintage chorus sound; the result is less transparent than a clean digital chorus and usually sits more easily on pads, guitars, and synth bass.
+
+definitionlist::
+## rate: || normalized `0..1` rate control, mapped exponentially onto the paired slow and fast LFO rates
+## depth: || normalized `0..1` modulation depth for both delay movements
+## feedback: || normalized `0..1` feedback amount, mapped with the original square-root law
+## mix: || dry/wet mix in `0..1`
+::
+
+Internally, the port keeps the original 64-sample parameter-cook cadence, the per-channel phase offsets, the anti-aliasing lowpass, and the DC-blocked feedback path. The BBD filter bank is ported as local scalar complex math so the package stays self-contained.
+
+classmethods::
+
+method::ar
+
+argument::in
+Mono input signal.
+
+argument::rate
+Normalized rate control in `0..1`.
+
+argument::depth
+Normalized depth control in `0..1`.
+
+argument::feedback
+Normalized feedback control in `0..1`.
+
+argument::mix
+Dry/wet mix in `0..1`.
+
+Examples::
+
+code::
+(
+{
+	var src = Saw.ar(110, 0.08);
+	ChorusCh.ar(src, rate: 0.45, depth: 0.7, feedback: 0.2, mix: 0.6)
+}.play
+)
+::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.06);
+	ChorusCh.ar(src, rate: MouseX.kr(0.0, 1.0), depth: MouseY.kr(0.0, 1.0), feedback: 0.35, mix: 0.8)
+}.play
+)
+::

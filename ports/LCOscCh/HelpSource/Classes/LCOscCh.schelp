@@ -1,0 +1,54 @@
+class:: LCOscCh
+summary:: LC circuit oscillator and resonator from WaveDigitalFilters
+categories:: UGens>Effects
+
+Description::
+
+LCOscCh follows the `LCOscillator` example from `WaveDigitalFilters`. The model is a discretized LC network, so the oscillation and damping come from the exchange of energy between inductor and capacitor states rather than from a textbook band-limited waveform formula. The `freq` control changes the effective resonance point, and the feedback condition determines whether the network behaves more like a struck resonator, a driven oscillator, or a marginally sustained loop.
+
+Because it is rooted in a resonant circuit model, the tone can feel more physically reactive than a basic sinusoid or saw generator. Short excitations reveal pinged, almost percussive ringing; sustained driving makes the oscillator feel more like a self-energized analog network.
+
+classmethods::
+
+method::ar
+
+argument::in
+Input or excitation signal.
+
+argument::freq
+Resonant frequency in Hz. Clamped to `20..2000`.
+
+argument::closed
+Switch state. Values greater than or equal to `0.5` are treated as closed.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	LCOscCh.ar(
+		Decay2.ar(Impulse.ar(2), 0.001, 0.02) * WhiteNoise.ar(0.6),
+		freq: 220,
+		closed: 1
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	LCOscCh.ar(
+		Impulse.ar(6, 0, 0.8),
+		freq: SinOsc.kr(0.12).range(90, 700),
+		closed: ToggleFF.kr(Impulse.kr(0.4))
+	) ! 2 * 0.6
+}.play
+)
+::

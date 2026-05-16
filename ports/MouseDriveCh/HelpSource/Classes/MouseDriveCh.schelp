@@ -1,0 +1,57 @@
+class:: MouseDriveCh
+summary:: BYOD-derived RAT-style distortion stage
+categories:: UGens>Filters
+
+Description::
+
+MouseDriveCh follows BYOD's public `Mouse Drive` module directly. The DSP is a wave-digital model of the RAT-style clipping stage, so the `distortion` control changes the effective resistance through the same steep fifth-power mapping used in the source and the circuit is then solved sample by sample before output makeup and DC blocking. The important point is that the tone comes from the interaction of the filters, gain distribution, and nonlinear branch, not from a standalone clip function.
+
+RAT-family distortions are known for a firm, grainy clipping texture with strong upper-mid presence and a fairly compressed sustain when pushed. This port keeps that topology-driven behavior, so moderate settings work as edgy overdrive while higher settings move into more abrasive fuzz-distortion territory.
+
+The nonlinear diode update follows the wave-digital literature cited in the source tree, including "An Improved and Generalized Diode Clipper Model for Wave Digital Filters."
+
+classmethods::
+
+method::ar
+
+argument::in
+Input signal.
+
+argument::distortion
+Normalized distortion amount, `0..1`.
+
+argument::volume
+Normalized output volume, `0..1`.
+
+argument::mul
+Output multiplier.
+
+argument::add
+Output offset.
+
+Examples::
+
+code::
+(
+{
+	MouseDriveCh.ar(
+		Saw.ar(110, 0.1),
+		distortion: 0.85,
+		volume: 0.8
+	) ! 2
+}.play
+)
+::
+
+code::
+(
+{
+	var src = PinkNoise.ar(0.08);
+	MouseDriveCh.ar(
+		src,
+		distortion: SinOsc.kr(0.08).range(0.2, 1.0),
+		volume: 0.75
+	) ! 2
+}.play
+)
+::

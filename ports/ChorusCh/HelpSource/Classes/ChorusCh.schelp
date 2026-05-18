@@ -1,6 +1,7 @@
 class:: ChorusCh
 summary:: Stereo BBD chorus based on the ChowDSP ChowChorus module
 categories:: UGens>Effects
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -35,6 +36,13 @@ Normalized feedback control in `0..1`.
 
 argument::mix
 Dry/wet mix in `0..1`.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

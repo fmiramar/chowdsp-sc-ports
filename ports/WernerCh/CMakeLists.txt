@@ -33,6 +33,7 @@ set(wernerch_sc_files
 
 set(wernerch_schelp_files
     HelpSource/Classes/WernerCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

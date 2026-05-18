@@ -37,6 +37,7 @@ set(centaurch_sc_files
 
 set(centaurch_schelp_files
     HelpSource/Classes/CentaurCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

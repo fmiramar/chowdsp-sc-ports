@@ -1,6 +1,7 @@
 class:: PhaserModCh
 summary:: Variable-stage LDR-shaped allpass modulator based on the ChowDSP ChowPhaserMod module
 categories:: UGens>Filters
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -41,6 +42,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

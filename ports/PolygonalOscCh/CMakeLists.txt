@@ -33,6 +33,7 @@ set(polygonaloscch_sc_files
 
 set(polygonaloscch_schelp_files
     HelpSource/Classes/PolygonalOscCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

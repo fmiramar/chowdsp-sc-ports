@@ -37,6 +37,7 @@ set(fuzzmachinech_sc_files
 
 set(fuzzmachinech_schelp_files
     HelpSource/Classes/FuzzMachineCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

@@ -1,6 +1,7 @@
 class:: TR808OutCh
 summary:: TR-808 output filter port from WaveDigitalFilters
 categories:: UGens>Filters
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -31,6 +32,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

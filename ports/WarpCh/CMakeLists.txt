@@ -33,6 +33,7 @@ set(warpch_sc_files
 
 set(warpch_schelp_files
     HelpSource/Classes/WarpCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

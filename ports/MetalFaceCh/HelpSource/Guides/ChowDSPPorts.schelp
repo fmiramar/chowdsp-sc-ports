@@ -1,0 +1,44 @@
+title:: ChowDSP Ports
+summary:: Practical notes for the ChowDSP-derived SuperCollider UGen ports
+categories:: UGens>Guides
+related:: Classes/TanhClipCh, Classes/DiodeClipperCh, Classes/ChorusCh, Classes/DelayBBCh, Classes/KickCh, Classes/TapeCh
+
+section:: Overview
+
+The ChowDSP ports collect standalone SuperCollider server plugins derived from public work by Jatin Chowdhury / ChowDSP, including ChowDSP-VCV modules, BYOD processors, ChowKick, ChowCentaur, chowdsp_utils DSP helpers, and the WaveDigitalFilters examples. Each port should identify its immediate upstream project in the class help file and keep enough implementation detail to explain the DSP technique, not just the audible result.
+
+The practical goal is to expose these processors as normal SuperCollider UGens while avoiding unnecessary framework dependencies. Ports should prefer small, explicit DSP translations that follow SuperCollider and sc3-plugins server-plugin conventions. When an upstream implementation depends on JUCE, Rack, or plugin-host services, the SuperCollider port should document which behavior was retained, simplified, or intentionally omitted.
+
+section:: DSP families
+
+Many ChowDSP ports are nonlinear processors. Waveshapers and analog-drive models should document aliasing behavior, oversampling, antiderivative antialiasing, wave-digital solving, recurrent neural-network state, or any other technique that materially changes the sound. Filter and delay ports should state whether they are clean digital structures, circuit-inspired models, bucket-brigade approximations, feedback-delay networks, or modal resonators.
+
+For wave-digital and circuit-model ports, explain the circuit or topology being solved and any numerical approximation used for nonlinear elements. For neural-model ports, state the model type, conditioning controls, sample-rate assumptions, and whether shipped weights came from public upstream assets.
+
+section:: Documentation checklist
+
+Each class help file should include:
+
+list::
+## the immediate source project or paper, with a quote or citation when available
+## a plain-language description of what the UGen does
+## a short internal DSP explanation, including oversampling, feedback, state, lookup tables, or model weights where relevant
+## concise code examples wrapped in parentheses inside code blocks
+## argument documentation in method argument entries rather than duplicated prose tables
+## a subsection:: See also section linking related ChowDSP UGens and this guide
+::
+
+section:: Portability and releases
+
+Release builds package each port as a separate SuperCollider extension folder. Any shared documentation or assets that a user needs at runtime should therefore be installed by every relevant port. Avoid relying on local development paths, host plugin frameworks, or private assets.
+
+section:: See also
+
+list::
+## link::Classes/TanhClipCh::TanhClipCh::
+## link::Classes/DiodeClipperCh::DiodeClipperCh::
+## link::Classes/ChorusCh::ChorusCh::
+## link::Classes/DelayBBCh::DelayBBCh::
+## link::Classes/KickCh::KickCh::
+## link::Classes/TapeCh::TapeCh::
+::

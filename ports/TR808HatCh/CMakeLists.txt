@@ -37,6 +37,7 @@ set(tr808hatch_sc_files
 
 set(tr808hatch_schelp_files
     HelpSource/Classes/TR808HatCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

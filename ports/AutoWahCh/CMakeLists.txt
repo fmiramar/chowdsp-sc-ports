@@ -33,6 +33,7 @@ set(autowahch_sc_files
 
 set(autowahch_schelp_files
     HelpSource/Classes/AutoWahCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

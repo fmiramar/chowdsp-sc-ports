@@ -37,6 +37,7 @@ set(diodeclipperch_sc_files
 
 set(diodeclipperch_schelp_files
     HelpSource/Classes/DiodeClipperCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

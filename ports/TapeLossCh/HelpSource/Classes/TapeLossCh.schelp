@@ -1,6 +1,7 @@
 class:: TapeLossCh
 summary:: Tape-head loss stage based on the ChowTape Loss module
 categories:: UGens>Effects
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -41,6 +42,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

@@ -33,6 +33,7 @@ set(fracfilterch_sc_files
 
 set(fracfilterch_schelp_files
     HelpSource/Classes/FracFilterCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

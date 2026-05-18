@@ -33,6 +33,7 @@ set(rnnch_sc_files
 
 set(rnnch_schelp_files
     HelpSource/Classes/RNNCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

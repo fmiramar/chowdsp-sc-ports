@@ -1,6 +1,7 @@
 class:: TR808SnareCh
 summary:: TR-808 snare resonator port from WaveDigitalFilters
 categories:: UGens>Filters
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -28,6 +29,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

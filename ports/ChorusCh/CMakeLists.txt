@@ -37,6 +37,7 @@ set(chorusch_sc_files
 
 set(chorusch_schelp_files
     HelpSource/Classes/ChorusCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

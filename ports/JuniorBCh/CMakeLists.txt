@@ -18,7 +18,10 @@ sc_do_initial_compiler_config()
 sc_check_sc_path("${SC_PATH}")
 set(juniorbch_cpp_files src/JuniorBCh.cpp)
 set(juniorbch_sc_files Classes/JuniorBCh.sc)
-set(juniorbch_schelp_files HelpSource/Classes/JuniorBCh.schelp)
+set(juniorbch_schelp_files
+    HelpSource/Classes/JuniorBCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
+)
 sc_add_server_plugin("JuniorBCh" "JuniorBCh" "${juniorbch_cpp_files}" "${juniorbch_sc_files}" "${juniorbch_schelp_files}")
 if(TARGET JuniorBCh_scsynth)
     set_target_properties(JuniorBCh_scsynth PROPERTIES OUTPUT_NAME "JuniorBCh")

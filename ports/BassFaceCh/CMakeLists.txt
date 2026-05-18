@@ -25,7 +25,10 @@ sc_check_sc_path("${SC_PATH}")
 
 set(bassfacech_cpp_files src/BassFaceCh.cpp)
 set(bassfacech_sc_files Classes/BassFaceCh.sc)
-set(bassfacech_schelp_files HelpSource/Classes/BassFaceCh.schelp)
+set(bassfacech_schelp_files
+    HelpSource/Classes/BassFaceCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
+)
 
 sc_add_server_plugin("BassFaceCh" "BassFaceCh" "${bassfacech_cpp_files}" "${bassfacech_sc_files}" "${bassfacech_schelp_files}")
 

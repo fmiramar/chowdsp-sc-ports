@@ -33,6 +33,7 @@ set(fdnch_sc_files
 
 set(fdnch_schelp_files
     HelpSource/Classes/FDNCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

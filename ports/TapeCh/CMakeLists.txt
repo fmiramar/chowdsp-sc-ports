@@ -33,6 +33,7 @@ set(tapech_sc_files
 
 set(tapech_schelp_files
     HelpSource/Classes/TapeCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

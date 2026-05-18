@@ -33,6 +33,7 @@ set(modalch_sc_files
 
 set(modalch_schelp_files
     HelpSource/Classes/ModalCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

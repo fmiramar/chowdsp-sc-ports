@@ -1,6 +1,7 @@
 class:: PolygonalOscCh
 summary:: Continuous-order polygon oscillator based on chowdsp_utils
 categories:: UGens>Generators
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -36,6 +37,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

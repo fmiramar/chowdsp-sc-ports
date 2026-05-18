@@ -1,6 +1,6 @@
 class:: ModalCh
 summary:: Single-mode resonator based on the Max Mathews phasor filter
-related:: Classes/Ringz, Classes/Klank, Classes/DynKlank
+related:: Classes/Ringz, Classes/Klank, Classes/DynKlank, Guides/ChowDSPPorts
 categories:: UGens>Filters>Linear
 
 Description::
@@ -33,6 +33,16 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Classes/Ringz::Ringz::
+## link::Classes/Klank::Klank::
+## link::Classes/DynKlank::DynKlank::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

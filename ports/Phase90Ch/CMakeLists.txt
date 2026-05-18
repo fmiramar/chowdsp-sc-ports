@@ -36,6 +36,7 @@ set(phase90ch_sc_files
 
 set(phase90ch_schelp_files
     HelpSource/Classes/Phase90Ch.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

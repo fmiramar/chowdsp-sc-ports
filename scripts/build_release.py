@@ -31,6 +31,10 @@ def main() -> int:
     parser.add_argument("--ports-root", default=Path("ports"), type=Path)
     parser.add_argument("--build-root", required=True, type=Path)
     parser.add_argument("--stage-root", required=True, type=Path)
+    parser.add_argument("--cmake-generator")
+    parser.add_argument("--cmake-arch")
+    parser.add_argument("--cmake-osx-architectures")
+    parser.add_argument("--cmake-extra-arg", action="append", default=[])
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parent.parent
@@ -64,6 +68,13 @@ def main() -> int:
             f"-DSC_PATH={sc_path}",
             "-DCMAKE_BUILD_TYPE=Release",
         ]
+        if args.cmake_generator:
+            configure_cmd.extend(["-G", args.cmake_generator])
+        if args.cmake_arch:
+            configure_cmd.extend(["-A", args.cmake_arch])
+        if args.cmake_osx_architectures:
+            configure_cmd.append(f"-DCMAKE_OSX_ARCHITECTURES={args.cmake_osx_architectures}")
+        configure_cmd.extend(args.cmake_extra_arg)
         if os.name == "nt":
             configure_cmd.append("-DCMAKE_CXX_FLAGS=/D_USE_MATH_DEFINES")
 

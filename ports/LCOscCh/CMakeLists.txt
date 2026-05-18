@@ -37,6 +37,7 @@ set(lcoscch_sc_files
 
 set(lcoscch_schelp_files
     HelpSource/Classes/LCOscCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

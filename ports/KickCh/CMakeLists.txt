@@ -37,6 +37,7 @@ set(kickch_sc_files
 
 set(kickch_schelp_files
     HelpSource/Classes/KickCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

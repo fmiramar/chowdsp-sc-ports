@@ -33,6 +33,7 @@ set(simplereverbdifch_sc_files
 
 set(simplereverbdifch_schelp_files
     HelpSource/Classes/SimpleReverbDifCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

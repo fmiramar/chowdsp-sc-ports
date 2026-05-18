@@ -33,6 +33,7 @@ set(pulseshaper808ch_sc_files
 
 set(pulseshaper808ch_schelp_files
     HelpSource/Classes/PulseShaper808Ch.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

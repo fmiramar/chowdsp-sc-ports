@@ -1,6 +1,7 @@
 class:: ModalSpringCh
 summary:: Scalar modal spring reverb based on the chowdsp_utils ModalSpringReverb example
 categories:: UGens>Effects
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -47,6 +48,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

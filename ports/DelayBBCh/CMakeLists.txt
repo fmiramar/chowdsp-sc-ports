@@ -37,6 +37,7 @@ set(delaybbch_sc_files
 
 set(delaybbch_schelp_files
     HelpSource/Classes/DelayBBCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

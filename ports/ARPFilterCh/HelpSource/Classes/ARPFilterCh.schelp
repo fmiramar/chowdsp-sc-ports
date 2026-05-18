@@ -1,6 +1,7 @@
 class:: ARPFilterCh
 summary:: ARP 1047-style multimode filter based on the chowdsp_utils example
 categories:: UGens>Filters
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -43,6 +44,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

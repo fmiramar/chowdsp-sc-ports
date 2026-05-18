@@ -33,6 +33,7 @@ set(wavemultiplierch_sc_files
 
 set(wavemultiplierch_schelp_files
     HelpSource/Classes/WaveMultiplierCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

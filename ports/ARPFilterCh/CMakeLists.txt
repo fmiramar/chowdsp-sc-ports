@@ -33,6 +33,7 @@ set(arpfilterch_sc_files
 
 set(arpfilterch_schelp_files
     HelpSource/Classes/ARPFilterCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

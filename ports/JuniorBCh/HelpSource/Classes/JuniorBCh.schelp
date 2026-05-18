@@ -1,9 +1,16 @@
 class:: JuniorBCh
 summary:: BYOD-derived Pro Junior preamp stage model
 categories:: UGens>Filters
+related:: Guides/ChowDSPPorts
 
 Description::
 
 JuniorBCh follows BYOD's public `Junior B` processor. The design is hybrid: a neural triode stage model is embedded inside the original wave-digital circuit, and the result can be cascaded from one to four stages with `blend` controlling the dry / processed balance. Mathematically that means the signal is not passing through a single black-box network; it is passing through a structured circuit model whose nonlinear element is itself a learned model.
 
 That hybrid approach matters because it keeps some of the topology and loading behavior of the source circuit while letting the triode element capture richer nonlinear behavior than a simple analytic tube law. The sound sits in the amp-preamp family, with saturation, compression, and transient softening increasing as more stages are engaged.
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::

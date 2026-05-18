@@ -1,6 +1,7 @@
 class:: SallenKeyCh
 summary:: Sallen-Key low-pass filter port from WaveDigitalFilters
 categories:: UGens>Filters
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -26,6 +27,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

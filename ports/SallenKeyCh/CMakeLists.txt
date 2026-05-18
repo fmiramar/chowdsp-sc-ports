@@ -38,6 +38,7 @@ set(sallenkeych_sc_files
 
 set(sallenkeych_schelp_files
     HelpSource/Classes/SallenKeyCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

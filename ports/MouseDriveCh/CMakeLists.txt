@@ -37,6 +37,7 @@ set(mousedrivech_sc_files
 
 set(mousedrivech_schelp_files
     HelpSource/Classes/MouseDriveCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

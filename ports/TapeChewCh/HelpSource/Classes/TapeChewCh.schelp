@@ -1,6 +1,7 @@
 class:: TapeChewCh
 summary:: Tape chew/crinkle stage based on the ChowTape Chew module
 categories:: UGens>Effects
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -37,6 +38,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

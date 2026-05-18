@@ -37,6 +37,7 @@ set(tr808snarech_sc_files
 
 set(tr808snarech_schelp_files
     HelpSource/Classes/TR808SnareCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

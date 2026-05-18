@@ -33,6 +33,7 @@ set(convdifusserch_sc_files
 
 set(convdifusserch_schelp_files
     HelpSource/Classes/ConvDifusserCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

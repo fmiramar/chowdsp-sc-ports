@@ -1,6 +1,7 @@
 class:: ConvDifusserCh
 summary:: Stereo convolution diffuser based on chowdsp_utils
 categories:: UGens>Effects
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -24,6 +25,13 @@ Right input.
 
 argument::diffusionTime
 Diffusion time in milliseconds.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

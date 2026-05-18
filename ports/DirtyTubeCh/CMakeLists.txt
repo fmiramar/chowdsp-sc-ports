@@ -37,6 +37,7 @@ set(dirtytubech_sc_files
 
 set(dirtytubech_schelp_files
     HelpSource/Classes/DirtyTubeCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

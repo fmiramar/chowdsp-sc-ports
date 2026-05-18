@@ -33,6 +33,7 @@ set(hardclipch_sc_files
 
 set(hardclipch_schelp_files
     HelpSource/Classes/HardClipCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

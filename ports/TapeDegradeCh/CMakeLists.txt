@@ -33,6 +33,7 @@ set(tapedegradech_sc_files
 
 set(tapedegradech_schelp_files
     HelpSource/Classes/TapeDegradeCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

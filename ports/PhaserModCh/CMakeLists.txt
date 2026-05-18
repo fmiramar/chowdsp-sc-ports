@@ -33,6 +33,7 @@ set(phasermodch_sc_files
 
 set(phasermodch_schelp_files
     HelpSource/Classes/PhaserModCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

@@ -41,6 +41,7 @@ set(vogueladderch_sc_files
 
 set(vogueladderch_schelp_files
     HelpSource/Classes/VogueLadderCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

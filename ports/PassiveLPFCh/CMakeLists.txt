@@ -37,6 +37,7 @@ set(passivelpfch_sc_files
 
 set(passivelpfch_schelp_files
     HelpSource/Classes/PassiveLPFCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

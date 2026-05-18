@@ -1,9 +1,16 @@
 class:: MetalFaceCh
 summary:: BYOD-derived heavy distortion model
 categories:: UGens>Filters
+related:: Guides/ChowDSPPorts
 
 Description::
 
 MetalFaceCh follows BYOD's public `Metal Face` model. The DSP is a single-input LSTM distortion model with the same pre-gain and makeup-gain laws used in BYOD, so the network state carries short-term memory while the `gain` control changes how hard the model is driven. That means the distortion is dynamic and program-dependent: successive samples are interpreted in the context of the recent waveform, not only in isolation.
 
 The audible result is typically tighter and more compressed than a soft overdrive, with a denser high-gain character that suits palm-muted riffs and sustained harmonics. Because the model is learned rather than hand-derived, a lot of the tone comes from the captured dynamic response as much as from any one static transfer curve.
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::

@@ -1,6 +1,7 @@
 class:: BaxandallCh
 summary:: Baxandall EQ port from WaveDigitalFilters
 categories:: UGens>Effects
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -29,6 +30,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

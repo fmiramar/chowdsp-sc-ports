@@ -1,6 +1,6 @@
 class:: DistortCh
 summary:: Distortion effect based on the ChowDSP ChowDer module
-related:: Classes/LeakDC, Classes/HPF
+related:: Classes/LeakDC, Classes/HPF, Guides/ChowDSPPorts
 categories:: UGens>Filters>Nonlinear
 
 Description::
@@ -40,6 +40,15 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Classes/LeakDC::LeakDC::
+## link::Classes/HPF::HPF::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

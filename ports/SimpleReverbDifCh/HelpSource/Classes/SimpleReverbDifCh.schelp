@@ -1,7 +1,7 @@
 class:: SimpleReverbDifCh
 summary:: More faithful stereo port of the chowdsp_utils SimpleReverb example
 categories:: UGens>Effects
-related:: Classes/SimpleReverbCh, Classes/ConvDifusserCh
+related:: Classes/SimpleReverbCh, Classes/ConvDifusserCh, Guides/ChowDSPPorts
 
 Description::
 
@@ -45,6 +45,15 @@ Normalized modulation amount.
 
 argument::dryWet
 Dry/wet mix.
+
+
+subsection:: See also
+
+list::
+## link::Classes/SimpleReverbCh::SimpleReverbCh::
+## link::Classes/ConvDifusserCh::ConvDifusserCh::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

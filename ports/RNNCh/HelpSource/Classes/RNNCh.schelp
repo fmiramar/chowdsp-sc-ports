@@ -1,6 +1,7 @@
 class:: RNNCh
 summary:: Four-input recurrent neural network based on the ChowDSP ChowRNN module
 categories:: UGens>Effects
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -49,6 +50,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

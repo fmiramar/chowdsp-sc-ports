@@ -1,6 +1,6 @@
 class:: PulseShaper808Ch
 summary:: TR-808 style pulse shaper based on the ChowDSP ChowPulse module
-related:: Classes/ModalCh
+related:: Classes/ModalCh, Guides/ChowDSPPorts
 categories:: UGens>Generators>Deterministic
 
 Description::
@@ -40,6 +40,14 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Classes/ModalCh::ModalCh::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

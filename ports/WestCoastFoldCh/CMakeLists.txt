@@ -33,6 +33,7 @@ set(westcoastfoldch_sc_files
 
 set(westcoastfoldch_schelp_files
     HelpSource/Classes/WestCoastFoldCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

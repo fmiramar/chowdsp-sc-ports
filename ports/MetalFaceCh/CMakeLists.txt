@@ -18,7 +18,10 @@ sc_do_initial_compiler_config()
 sc_check_sc_path("${SC_PATH}")
 set(metalfacech_cpp_files src/MetalFaceCh.cpp)
 set(metalfacech_sc_files Classes/MetalFaceCh.sc)
-set(metalfacech_schelp_files HelpSource/Classes/MetalFaceCh.schelp)
+set(metalfacech_schelp_files
+    HelpSource/Classes/MetalFaceCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
+)
 sc_add_server_plugin("MetalFaceCh" "MetalFaceCh" "${metalfacech_cpp_files}" "${metalfacech_sc_files}" "${metalfacech_schelp_files}")
 if(TARGET MetalFaceCh_scsynth)
     set_target_properties(MetalFaceCh_scsynth PROPERTIES OUTPUT_NAME "MetalFaceCh")

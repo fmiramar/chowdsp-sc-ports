@@ -1,6 +1,6 @@
 class:: PhaserFBCh
 summary:: LDR-shaped feedback phaser section based on the ChowDSP ChowPhaserFeedback module
-related:: Classes/PhaserModCh
+related:: Classes/PhaserModCh, Guides/ChowDSPPorts
 categories:: UGens>Filters
 
 Description::
@@ -38,6 +38,14 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Classes/PhaserModCh::PhaserModCh::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

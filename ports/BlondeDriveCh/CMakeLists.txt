@@ -18,7 +18,10 @@ sc_do_initial_compiler_config()
 sc_check_sc_path("${SC_PATH}")
 set(blondedrivech_cpp_files src/BlondeDriveCh.cpp)
 set(blondedrivech_sc_files Classes/BlondeDriveCh.sc)
-set(blondedrivech_schelp_files HelpSource/Classes/BlondeDriveCh.schelp)
+set(blondedrivech_schelp_files
+    HelpSource/Classes/BlondeDriveCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
+)
 sc_add_server_plugin("BlondeDriveCh" "BlondeDriveCh" "${blondedrivech_cpp_files}" "${blondedrivech_sc_files}" "${blondedrivech_schelp_files}")
 if(TARGET BlondeDriveCh_scsynth)
     set_target_properties(BlondeDriveCh_scsynth PROPERTIES OUTPUT_NAME "BlondeDriveCh")

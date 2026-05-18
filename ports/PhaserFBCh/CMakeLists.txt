@@ -33,6 +33,7 @@ set(phaserfbch_sc_files
 
 set(phaserfbch_schelp_files
     HelpSource/Classes/PhaserFBCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

@@ -33,6 +33,7 @@ set(tapelossch_sc_files
 
 set(tapelossch_schelp_files
     HelpSource/Classes/TapeLossCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

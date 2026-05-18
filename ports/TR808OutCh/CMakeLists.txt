@@ -38,6 +38,7 @@ set(tr808outch_sc_files
 
 set(tr808outch_schelp_files
     HelpSource/Classes/TR808OutCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

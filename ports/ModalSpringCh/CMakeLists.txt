@@ -33,6 +33,7 @@ set(modalspringch_sc_files
 
 set(modalspringch_schelp_files
     HelpSource/Classes/ModalSpringCh.schelp
+    HelpSource/Guides/ChowDSPPorts.schelp
 )
 
 sc_add_server_plugin(

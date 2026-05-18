@@ -1,6 +1,7 @@
 class:: SimpleReverbCh
 summary:: Stereo reverb based on the chowdsp_utils SimpleReverb example
 categories:: UGens>Effects
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -44,6 +45,13 @@ Normalized modulation amount.
 
 argument::dryWet
 Dry/wet mix.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

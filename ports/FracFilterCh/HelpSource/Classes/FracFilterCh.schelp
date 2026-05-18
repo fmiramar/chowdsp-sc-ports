@@ -1,6 +1,7 @@
 class:: FracFilterCh
 summary:: Approximate fractional-order lowpass based on chowdsp_utils
 categories:: UGens>Filters
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -32,6 +33,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

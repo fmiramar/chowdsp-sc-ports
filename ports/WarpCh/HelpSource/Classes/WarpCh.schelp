@@ -1,6 +1,7 @@
 class:: WarpCh
 summary:: Nonlinear warped filter based on the ChowDSP Warp module
 categories:: UGens>Filters
+related:: Guides/ChowDSPPorts
 
 Description::
 
@@ -45,6 +46,13 @@ Output multiplier.
 
 argument::add
 Output offset.
+
+
+subsection:: See also
+
+list::
+## link::Guides/ChowDSPPorts::ChowDSP Ports::
+::
 
 Examples::
 

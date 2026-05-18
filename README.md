@@ -119,26 +119,6 @@ python3 scripts/package_release.py \
   --platform macos-apple-silicon
 ```
 
-## CI / Releases
-
-GitHub Actions is configured to build release artifacts for:
-
-- `ubuntu-22.04` (`linux-x64-ubuntu-22.04`)
-- `ubuntu-24.04` (`linux-x64-ubuntu-24.04`)
-- `ubuntu-24.04-arm` (`linux-arm64-ubuntu-24.04`)
-- `windows-2022` (`windows-x64`)
-- `windows-2022` (`windows-x86`)
-- `macos-13` (`macos-x64`)
-- `macos-14` (`macos-apple-silicon`)
-
-The workflow:
-
-1. clones SuperCollider `Version-3.14.1`
-2. builds every port under `ports/` that has a `CMakeLists.txt`
-3. installs them into a staged `Extensions/` tree
-4. zips that tree into a platform-specific release asset
-5. uploads the asset to the GitHub Release for tagged builds
-
 ## Notes
 
 - This publishable repo intentionally does not include the local smoke-test bundle used during development.
